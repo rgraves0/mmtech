@@ -15,7 +15,7 @@
             --border-color: #004d14;
         }
         body {
-            font-family: 'Roboto Mono', monospace; /* Hacker Font */
+            font-family: 'Roboto Mono', monospace;
             margin: 0;
             padding: 0;
             display: flex;
@@ -26,6 +26,7 @@
             background-color: var(--background-color);
             color: var(--text-color);
         }
+        /* ... (ယခင် Header and Card CSS များ ဆက်ပါ) */
         .header {
             text-align: center;
             margin-bottom: 40px;
@@ -35,7 +36,7 @@
         .header h1 {
             font-size: 3em;
             color: var(--primary-color);
-            text-shadow: 0 0 10px var(--primary-color), 0 0 20px rgba(0, 255, 65, 0.5); /* Neon Effect */
+            text-shadow: 0 0 10px var(--primary-color), 0 0 20px rgba(0, 255, 65, 0.5);
             margin: 0;
             font-weight: 700;
         }
@@ -87,13 +88,74 @@
             font-weight: 600;
             border-bottom: 1px dashed var(--primary-color);
             transition: border-bottom 0.3s;
+            cursor: pointer; /* Add pointer for clickable links */
         }
         .cta-link:hover {
             color: #fff;
             text-shadow: 0 0 5px var(--primary-color);
             border-bottom: 1px solid #fff;
         }
-        
+        .ip-info {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+            color: var(--primary-color);
+            font-size: 0.85em;
+        }
+        .ip-info span {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* Modal Styles (New) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 100; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.85); /* Dark overlay */
+            animation: terminalFadeIn 0.3s;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            margin: 15% auto; /* Center vertically and horizontally */
+            padding: 30px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+        }
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .close-btn:hover, .close-btn:focus {
+            color: var(--primary-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .tool-list a {
+            display: block;
+            padding: 10px 0;
+            color: var(--text-color);
+            text-decoration: none;
+            border-bottom: 1px dashed #333;
+            transition: color 0.3s, background-color 0.3s;
+        }
+        .tool-list a:hover {
+            color: var(--primary-color);
+            background-color: #333333;
+            padding-left: 5px;
+        }
+
         /* Animation */
         @keyframes terminalFadeIn {
             from { opacity: 0; }
@@ -106,6 +168,7 @@
         @media (max-width: 768px) {
             .header h1 { font-size: 2em; }
             .card { width: 100%; max-width: 350px; }
+            .modal-content { margin: 25% auto; width: 90%; }
         }
     </style>
 </head>
@@ -124,8 +187,11 @@
         
         <div class="card">
             <h2>> SYSTEM UTILS</h2>
-            <p>DNS Lookup, IP Information, and Port Scanner links. Get system info quickly.</p>
-            <a href="#" class="cta-link">LAUNCH TOOLS</a>
+            <p>Scanning tools and utility links. Get system info quickly.</p>
+            <div class="ip-info">
+                Your Current IP: <span id="current-ip">LOADING...</span>
+            </div>
+            <a id="launch-tools-btn" class="cta-link">LAUNCH TOOLS (5)</a>
         </div>
         
         <div class="card">
@@ -134,5 +200,59 @@
             <a href="mailto:thihazaw@mconn.eu.org" class="cta-link">SEND EMAIL</a>
         </div>
     </div>
+
+    <div id="tools-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 style="color:var(--primary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 10px;">[ UTILITY MENU ]</h2>
+            <div class="tool-list">
+                <a href="https://dnschecker.org/" target="_blank">1. DNS Propagation Check</a>
+                <a href="https://www.whois.com/whois/" target="_blank">2. WHOIS Lookup</a>
+                <a href="https://ping.eu/port-check/" target="_blank">3. Online Port Scanner</a>
+                <a href="https://hash.online-convert.com/sha256-generator" target="_blank">4. SHA256 Hash Generator</a>
+                <a href="https://iplocation.net/" target="_blank">5. Full Geo-IP Locator</a>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9em; color: #888;">*All links open in a new tab.</p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to fetch and display the user's IP address and handle modal
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. IP Fetcher
+            const ipDisplay = document.getElementById('current-ip');
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    ipDisplay.textContent = data.ip;
+                })
+                .catch(error => {
+                    ipDisplay.textContent = 'ERROR/TIMEOUT';
+                    console.error('Error fetching IP:', error);
+                });
+
+            // 2. Modal Handler
+            const modal = document.getElementById("tools-modal");
+            const btn = document.getElementById("launch-tools-btn");
+            const span = document.getElementsByClassName("close-btn")[0];
+
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+    </script>
 </body>
 </html>
