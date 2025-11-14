@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMTech - Utility Console & Console</title>
+    <title>MMTech - Utility & Console</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -26,10 +26,9 @@
             background-color: var(--background-color);
             color: var(--text-color);
         }
-        /* ... (ယခင် Header and Card CSS များ ဆက်ပါ) */
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 20px; /* Reduced margin to fit search box */
             animation: terminalFadeIn 1.5s ease-out;
             padding: 10px;
         }
@@ -45,6 +44,41 @@
             color: #999;
             font-weight: 400;
         }
+        /* DuckDuckGo Search Box Style */
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 40px;
+            animation: terminalFadeIn 1.8s ease-out;
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            overflow: hidden;
+            display: flex;
+        }
+        .search-container input[type="text"] {
+            flex-grow: 1;
+            padding: 10px 15px;
+            background-color: #333;
+            border: none;
+            color: var(--primary-color);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1em;
+            outline: none;
+        }
+        .search-container button {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .search-container button:hover {
+            background-color: #00b33c;
+        }
+
         .card-container {
             display: flex;
             flex-wrap: wrap;
@@ -88,7 +122,7 @@
             font-weight: 600;
             border-bottom: 1px dashed var(--primary-color);
             transition: border-bottom 0.3s;
-            cursor: pointer; /* Add pointer for clickable links */
+            cursor: pointer;
         }
         .cta-link:hover {
             color: #fff;
@@ -107,28 +141,30 @@
             font-weight: 700;
         }
 
-        /* Modal Styles (New) */
+        /* Modal Styles */
         .modal {
-            display: none; /* Hidden by default */
+            display: none;
             position: fixed;
-            z-index: 100; 
+            z-index: 100;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.85); /* Dark overlay */
+            background-color: rgba(0, 0, 0, 0.95);
             animation: terminalFadeIn 0.3s;
         }
         .modal-content {
             background-color: var(--card-bg);
             border: 2px solid var(--primary-color);
-            margin: 15% auto; /* Center vertically and horizontally */
+            margin: 5% auto;
             padding: 30px;
-            width: 80%;
-            max-width: 500px;
+            width: 90%;
+            max-width: 800px;
             border-radius: 5px;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            height: 80vh; /* Set a height for inner scrolling */
+            overflow-y: auto;
         }
         .close-btn {
             color: #aaa;
@@ -142,18 +178,28 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .tool-list h3 {
+            color: var(--primary-color);
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
         .tool-list a {
-            display: block;
+            display: inline-block;
+            width: 48%; /* Two columns */
             padding: 10px 0;
             color: var(--text-color);
             text-decoration: none;
-            border-bottom: 1px dashed #333;
             transition: color 0.3s, background-color 0.3s;
+            margin: 5px 1%;
+            border: 1px dashed #444;
+            text-align: center;
         }
         .tool-list a:hover {
-            color: var(--primary-color);
-            background-color: #333333;
-            padding-left: 5px;
+            color: var(--background-color);
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
 
         /* Animation */
@@ -161,14 +207,12 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.3s; }
-        .card:nth-child(3) { animation-delay: 0.5s; }
-
+        
         @media (max-width: 768px) {
+            .tool-list a { width: 98%; margin: 5px 0; }
             .header h1 { font-size: 2em; }
             .card { width: 100%; max-width: 350px; }
-            .modal-content { margin: 25% auto; width: 90%; }
+            .modal-content { margin: 15% auto; width: 90%; height: auto; }
         }
     </style>
 </head>
@@ -177,6 +221,11 @@
         <h1>[ MMTECH CONSOLE ]</h1>
         <p>ACCESS GRANTED: Utility and System Information</p>
     </div>
+
+    <form action="https://duckduckgo.com/" method="GET" target="_blank" class="search-container">
+        <input type="text" name="q" placeholder="> Enter search query and press ENTER..." required>
+        <button type="submit">SEARCH</button>
+    </form>
 
     <div class="card-container">
         <div class="card">
@@ -191,13 +240,13 @@
             <div class="ip-info">
                 Your Current IP: <span id="current-ip">LOADING...</span>
             </div>
-            <a id="launch-tools-btn" class="cta-link">LAUNCH TOOLS (5)</a>
+            <a id="launch-tools-btn" class="cta-link">LAUNCH TOOLS (16)</a>
         </div>
         
         <div class="card">
-            <h2>> SECURE DROP</h2>
-            <p>Contact for collaboration or send encrypted messages/feedback to the owner.</p>
-            <a href="mailto:thihazaw@mconn.eu.org" class="cta-link">SEND EMAIL</a>
+            <h2>> PRIVACY & TEMP</h2>
+            <p>Use temporary email services and private browsing tools for sensitive tasks.</p>
+            <a href="https://mail.tm/" target="_blank" class="cta-link">TEMP MAIL (Mail.tm)</a>
         </div>
     </div>
 
@@ -205,12 +254,27 @@
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <h2 style="color:var(--primary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 10px;">[ UTILITY MENU ]</h2>
+            
             <div class="tool-list">
-                <a href="https://dnschecker.org/" target="_blank">1. DNS Propagation Check</a>
-                <a href="https://www.whois.com/whois/" target="_blank">2. WHOIS Lookup</a>
-                <a href="https://ping.eu/port-check/" target="_blank">3. Online Port Scanner</a>
-                <a href="https://hash.online-convert.com/sha256-generator" target="_blank">4. SHA256 Hash Generator</a>
-                <a href="https://iplocation.net/" target="_blank">5. Full Geo-IP Locator</a>
+                <h3>[1] NETWORK & INFRA</h3>
+                <a href="https://dnschecker.org/" target="_blank">DNS Propagation Check</a>
+                <a href="https://www.whois.com/whois/" target="_blank">WHOIS Lookup</a>
+                <a href="https://ping.eu/port-check/" target="_blank">Online Port Scanner</a>
+                <a href="https://network-tools.com/traceroute/" target="_blank">Traceroute</a>
+                <a href="https://www.subnet-calculator.com/" target="_blank">Subnet Calculator</a>
+                <a href="https://www.speedtest.net/" target="_blank">Speed Test</a>
+                <a href="https://testmy.net/bwm" target="_blank">Bandwidth Meter</a>
+                <a href="https://iplocation.net/" target="_blank">Geo-IP Locator</a>
+
+                <h3>[2] CYBER DETECTIVE & SECURITY</h3>
+                <a href="https://exifdata.com/" target="_blank">Exif Data Viewer (Metadata)</a>
+                <a href="https://archive.org/web/web.php" target="_blank">Website History (Wayback)</a>
+                <a href="https://www.virustotal.com/" target="_blank">Virus/File Analyzer</a>
+                <a href="https://url-decoder.com/" target="_blank">URL Decoder</a>
+                <a href="https://hash.online-convert.com/sha256-generator" target="_blank">SHA/MD5 Hash Calculator</a>
+                <a href="https://haveibeenpwned.com/" target="_blank">Data Breach Check</a>
+                <a href="https://passwordsgenerator.net/" target="_blank">Secure Password Generator</a>
+                <a href="https://hunter.io/email-verifier" target="_blank">Email Validator (Hunter)</a>
             </div>
             <p style="margin-top: 20px; font-size: 0.9em; color: #888;">*All links open in a new tab.</p>
         </div>
