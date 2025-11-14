@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMTech - Utility & Console</title>
+    <title>MMTech - Console Access</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -21,21 +21,23 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Adjust to allow space for terminal */
             min-height: 100vh;
             background-color: var(--background-color);
             color: var(--text-color);
+            padding-top: 30px;
         }
         .header {
             text-align: center;
-            margin-bottom: 20px; /* Reduced margin to fit search box */
-            animation: terminalFadeIn 1.5s ease-out;
+            margin-bottom: 20px;
             padding: 10px;
+            width: 90%;
+            max-width: 800px;
         }
         .header h1 {
             font-size: 3em;
             color: var(--primary-color);
-            text-shadow: 0 0 10px var(--primary-color), 0 0 20px rgba(0, 255, 65, 0.5);
+            text-shadow: 0 0 10px var(--primary-color);
             margin: 0;
             font-weight: 700;
         }
@@ -44,12 +46,21 @@
             color: #999;
             font-weight: 400;
         }
+        /* Time and Date */
+        .system-info {
+            width: 90%;
+            max-width: 800px;
+            margin: 10px auto 30px;
+            text-align: right;
+            color: var(--secondary-color);
+            font-size: 0.9em;
+            animation: terminalFadeIn 2s ease-out;
+        }
         /* DuckDuckGo Search Box Style */
         .search-container {
-            width: 100%;
-            max-width: 600px;
+            width: 90%;
+            max-width: 800px;
             margin-bottom: 40px;
-            animation: terminalFadeIn 1.8s ease-out;
             border: 1px solid var(--primary-color);
             border-radius: 5px;
             overflow: hidden;
@@ -75,10 +86,7 @@
             font-weight: 600;
             transition: background-color 0.3s;
         }
-        .search-container button:hover {
-            background-color: #00b33c;
-        }
-
+        /* Card Container and Cards (Simplified) */
         .card-container {
             display: flex;
             flex-wrap: wrap;
@@ -86,6 +94,7 @@
             justify-content: center;
             max-width: 1000px;
             padding: 20px;
+            margin-bottom: 40px;
         }
         .card {
             background: var(--card-bg);
@@ -95,135 +104,90 @@
             padding: 30px;
             width: 300px;
             text-align: left;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: terminalFadeIn 1.5s ease-out;
+            transition: transform 0.3s;
         }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px var(--primary-color);
-        }
-        .card h2 {
-            color: var(--secondary-color);
-            font-size: 1.4em;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 5px;
-            margin-top: 0;
-        }
-        .card p {
-            font-size: 0.9em;
-            line-height: 1.6;
-            color: #b0b0b0;
-        }
-        .cta-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-            border-bottom: 1px dashed var(--primary-color);
-            transition: border-bottom 0.3s;
-            cursor: pointer;
-        }
-        .cta-link:hover {
-            color: #fff;
-            text-shadow: 0 0 5px var(--primary-color);
-            border-bottom: 1px solid #fff;
-        }
-        .ip-info {
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px solid #333;
-            color: var(--primary-color);
-            font-size: 0.85em;
-        }
-        .ip-info span {
-            color: #fff;
-            font-weight: 700;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.95);
-            animation: terminalFadeIn 0.3s;
-        }
-        .modal-content {
-            background-color: var(--card-bg);
-            border: 2px solid var(--primary-color);
-            margin: 5% auto;
-            padding: 30px;
+        .card h2 { color: var(--secondary-color); font-size: 1.4em; }
+        .ip-info span { color: #fff; font-weight: 700; }
+        .cta-link { color: var(--primary-color); cursor: pointer; }
+        
+        /* Terminal Emulator Style */
+        .terminal-container {
             width: 90%;
             max-width: 800px;
+            height: 300px;
+            background-color: #000;
+            border: 2px solid var(--primary-color);
             border-radius: 5px;
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
-            height: 80vh; /* Set a height for inner scrolling */
             overflow-y: auto;
-        }
-        .close-btn {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        .close-btn:hover, .close-btn:focus {
+            padding: 10px;
             color: var(--primary-color);
-            text-decoration: none;
-            cursor: pointer;
+            margin-bottom: 40px;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
         }
-        .tool-list h3 {
+        .terminal-output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding-bottom: 10px;
+        }
+        .terminal-input-line {
+            display: flex;
+        }
+        .terminal-prompt {
+            color: #fff;
+            margin-right: 5px;
+            white-space: nowrap;
+        }
+        #terminal-input {
+            flex-grow: 1;
+            background: none;
+            border: none;
             color: var(--primary-color);
-            border-bottom: 1px solid #333;
-            padding-bottom: 5px;
-            margin-top: 20px;
-            font-size: 1.2em;
-        }
-        .tool-list a {
-            display: inline-block;
-            width: 48%; /* Two columns */
-            padding: 10px 0;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: color 0.3s, background-color 0.3s;
-            margin: 5px 1%;
-            border: 1px dashed #444;
-            text-align: center;
-        }
-        .tool-list a:hover {
-            color: var(--background-color);
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            font-family: inherit;
+            font-size: 1em;
+            outline: none;
+            caret-color: var(--primary-color); /* Neon cursor */
         }
 
-        /* Animation */
-        @keyframes terminalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        /* Modal Styles (Same as before) */
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.95); animation: terminalFadeIn 0.3s; }
+        .modal-content { background-color: var(--card-bg); border: 2px solid var(--primary-color); margin: 5% auto; padding: 30px; width: 90%; max-width: 800px; border-radius: 5px; box-shadow: 0 0 30px rgba(0, 255, 65, 0.5); height: 80vh; overflow-y: auto; }
+        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; transition: color 0.3s; }
+        .tool-list h3 { color: var(--primary-color); border-bottom: 1px solid #333; padding-bottom: 5px; margin-top: 20px; font-size: 1.2em; }
+        .tool-list a { display: inline-block; width: 48%; padding: 10px 0; color: var(--text-color); transition: color 0.3s, background-color 0.3s; margin: 5px 1%; border: 1px dashed #444; text-align: center; }
+        .tool-list a:hover { color: var(--background-color); background-color: var(--primary-color); border-color: var(--primary-color); }
         
+        /* Animation */
+        @keyframes terminalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.3s; }
+        .card:nth-child(3) { animation-delay: 0.5s; }
+
         @media (max-width: 768px) {
+            .terminal-container { height: 200px; }
             .tool-list a { width: 98%; margin: 5px 0; }
-            .header h1 { font-size: 2em; }
-            .card { width: 100%; max-width: 350px; }
-            .modal-content { margin: 15% auto; width: 90%; height: auto; }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>[ MMTECH CONSOLE ]</h1>
-        <p>ACCESS GRANTED: Utility and System Information</p>
+        <h1 id="header-title">[ MMTECH CONSOLE ]</h1>
+        <p id="header-subtitle">ACCESS GRANTED: Utility and System Information</p>
     </div>
 
-    <form action="https://duckduckgo.com/" method="GET" target="_blank" class="search-container">
-        <input type="text" name="q" placeholder="> Enter search query and press ENTER..." required>
+    <div class="system-info">
+        <span id="datetime">LOADING DATE...</span>
+    </div>
+
+    <div class="terminal-container">
+        <div class="terminal-output" id="terminal-output"></div>
+        <div class="terminal-input-line">
+            <span class="terminal-prompt">user@mmtech-console:~$</span>
+            <input type="text" id="terminal-input" autofocus>
+        </div>
+    </div>
+
+    <form id="search-form" action="https://duckduckgo.com/" method="GET" target="_blank" class="search-container" onsubmit="clearSearchBox()">
+        <input type="text" id="search-input" name="q" placeholder="> Enter web query and press ENTER..." required>
         <button type="submit">SEARCH</button>
     </form>
 
@@ -281,9 +245,118 @@
     </div>
 
     <script>
-        // JavaScript to fetch and display the user's IP address and handle modal
+        // --- Core Functions ---
+
+        // 1. Terminal Emulator Logic
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalInput = document.getElementById('terminal-input');
+        const promptText = 'user@mmtech-console:~$ ';
+        
+        function appendOutput(text, isError = false) {
+            const output = document.createElement('div');
+            output.textContent = text;
+            if (isError) {
+                output.style.color = '#ff4141'; // Red for errors
+            }
+            terminalOutput.appendChild(output);
+            terminalContainer.scrollTop = terminalContainer.scrollHeight;
+        }
+
+        function handleCommand(command) {
+            command = command.trim().toLowerCase();
+            appendOutput(promptText + command); // Echo the command
+            
+            let response = '';
+            let isError = false;
+
+            if (command === 'help') {
+                response = 'Available commands:\n  whoami - Display user info\n  status - Show system status\n  clear - Clear the console\n  tools - Launch utility menu\n  github - Open GitHub repo\n  contact - Show contact info';
+            } else if (command === 'whoami') {
+                response = 'User: rgraves0\nRole: SysAdmin/Operator\nAccess Level: Full';
+            } else if (command === 'status') {
+                const ip = document.getElementById('current-ip').textContent;
+                response = 'System Status: ONLINE\nTime: ' + document.getElementById('datetime').textContent + '\nClient IP: ' + ip;
+            } else if (command === 'clear') {
+                terminalOutput.innerHTML = '';
+            } else if (command === 'tools') {
+                document.getElementById('tools-modal').style.display = 'block';
+                response = 'Utility Menu launched. Check the overlay.';
+            } else if (command === 'github') {
+                window.open('https://github.com/rgraves0', '_blank');
+                response = 'Opening rgraves0 GitHub in a new tab...';
+            } else if (command === 'contact') {
+                response = 'Email: thihazaw@mconn.eu.org';
+            } else if (command) {
+                isError = true;
+                response = `Command not found: ${command}. Type 'help' for commands.`;
+            }
+
+            if (response) {
+                appendOutput(response, isError);
+            }
+        }
+
+        terminalInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Prevent new line
+                handleCommand(terminalInput.value);
+                terminalInput.value = ''; // Clear input field
+            }
+        });
+
+        // 2. Typewriter Effect
+        const headerTitle = document.getElementById('header-title');
+        const headerSubtitle = document.getElementById('header-subtitle');
+        const originalTitle = headerTitle.textContent;
+        const originalSubtitle = headerSubtitle.textContent;
+
+        function typeWriter(element, text, delay = 50, callback) {
+            element.textContent = '';
+            let i = 0;
+            element.style.color = 'var(--primary-color)';
+            const interval = setInterval(() => {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    if (callback) callback();
+                }
+            }, delay);
+        }
+
+        function startTyping() {
+            typeWriter(headerTitle, originalTitle, 50, () => {
+                // Remove typing effect for subtitle after title is done
+                headerSubtitle.style.animation = 'none';
+                headerSubtitle.textContent = originalSubtitle;
+            });
+        }
+        
+        // 3. Dynamic Time/Date
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', month: '2-digit', day: '2-digit', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit', 
+                timeZoneName: 'short' 
+            };
+            document.getElementById('datetime').textContent = now.toLocaleString('en-US', options);
+        }
+        setInterval(updateDateTime, 1000); // Update every second
+
+
+        // 4. IP Fetcher & Modal/Search Box Handlers (Same as previous step)
+        function clearSearchBox() {
+            const searchInput = document.getElementById('search-input');
+            setTimeout(() => {
+                searchInput.value = '';
+            }, 100); 
+            return true;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. IP Fetcher
+            // IP Fetcher
             const ipDisplay = document.getElementById('current-ip');
             fetch('https://api.ipify.org?format=json')
                 .then(response => response.json())
@@ -295,27 +368,24 @@
                     console.error('Error fetching IP:', error);
                 });
 
-            // 2. Modal Handler
+            // Initial Terminal Greeting
+            appendOutput('[[ Initializing MMTECH Console... ]]', false);
+            appendOutput('Type \'help\' to see available commands.', false);
+            terminalInput.focus();
+
+            // Start Typewriter
+            headerTitle.textContent = ''; // Clear header for typing effect
+            startTyping();
+
+            // Modal Handler
             const modal = document.getElementById("tools-modal");
             const btn = document.getElementById("launch-tools-btn");
             const span = document.getElementsByClassName("close-btn")[0];
+            btn.onclick = function() { modal.style.display = "block"; }
+            span.onclick = function() { modal.style.display = "none"; }
+            window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
 
-            // When the user clicks the button, open the modal 
-            btn.onclick = function() {
-                modal.style.display = "block";
-            }
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function() {
-                modal.style.display = "none";
-            }
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
+            updateDateTime(); // Initial call for date/time
         });
     </script>
 </body>
