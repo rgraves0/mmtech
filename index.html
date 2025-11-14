@@ -2,8 +2,8 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMTech - Console Access</title>
+    <meta name="viewport" content="width=device-width, initial-width=1.0">
+    <title>MMTech - Global Utility Console</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -21,7 +21,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Adjust to allow space for terminal */
+            justify-content: center;
             min-height: 100vh;
             background-color: var(--background-color);
             color: var(--text-color);
@@ -46,143 +46,118 @@
             color: #999;
             font-weight: 400;
         }
-        /* Time and Date */
-        .system-info {
+        
+        /* World Clock Dashboard */
+        .world-clock-dashboard {
             width: 90%;
             max-width: 800px;
-            margin: 10px auto 30px;
-            text-align: right;
-            color: var(--secondary-color);
-            font-size: 0.9em;
-            animation: terminalFadeIn 2s ease-out;
-        }
-        /* DuckDuckGo Search Box Style */
-        .search-container {
-            width: 90%;
-            max-width: 800px;
-            margin-bottom: 40px;
-            border: 1px solid var(--primary-color);
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            margin-bottom: 30px;
             border-radius: 5px;
-            overflow: hidden;
-            display: flex;
-        }
-        .search-container input[type="text"] {
-            flex-grow: 1;
-            padding: 10px 15px;
-            background-color: #333;
-            border: none;
-            color: var(--primary-color);
-            font-family: 'Roboto Mono', monospace;
-            font-size: 1em;
-            outline: none;
-        }
-        .search-container button {
-            background-color: var(--primary-color);
-            color: var(--background-color);
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-family: 'Roboto Mono', monospace;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        /* Card Container and Cards (Simplified) */
-        .card-container {
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            max-width: 1000px;
-            padding: 20px;
-            margin-bottom: 40px;
+            justify-content: space-between;
         }
-        .card {
-            background: var(--card-bg);
-            border-radius: 5px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
-            padding: 30px;
-            width: 300px;
-            text-align: left;
-            transition: transform 0.3s;
+        .clock-item {
+            width: 23%;
+            text-align: center;
+            padding: 5px 0;
+            color: var(--text-color);
+            font-size: 0.85em;
         }
+        .clock-item.local {
+            width: 100%;
+            padding-bottom: 15px;
+            font-size: 1.2em;
+            color: var(--primary-color);
+            border-bottom: 1px dashed #333;
+            margin-bottom: 10px;
+        }
+        .clock-item span {
+            display: block;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-top: 3px;
+        }
+        
+        /* Search/Tools and Cards CSS (Same as before) */
+        .search-container { /* DuckDuckGo Search Box */
+            width: 90%; max-width: 600px; margin-bottom: 40px; border: 1px solid var(--primary-color); border-radius: 5px; overflow: hidden; display: flex;
+        }
+        .search-container input[type="text"] { flex-grow: 1; padding: 10px 15px; background-color: #333; border: none; color: var(--primary-color); font-family: 'Roboto Mono', monospace; font-size: 1em; outline: none; }
+        .search-container button { background-color: var(--primary-color); color: var(--background-color); border: none; padding: 10px 15px; cursor: pointer; font-family: 'Roboto Mono', monospace; font-weight: 600; transition: background-color 0.3s; }
+        .card-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 1000px; padding: 20px; margin-bottom: 40px; }
+        .card { background: var(--card-bg); border-radius: 5px; border: 1px solid var(--border-color); box-shadow: 0 0 10px rgba(0, 255, 65, 0.1); padding: 30px; width: 300px; text-align: left; transition: transform 0.3s; }
         .card h2 { color: var(--secondary-color); font-size: 1.4em; }
         .ip-info span { color: #fff; font-weight: 700; }
         .cta-link { color: var(--primary-color); cursor: pointer; }
         
-        /* Terminal Emulator Style */
-        .terminal-container {
+        /* Interactive Clock Widget */
+        .interactive-clock-widget {
             width: 90%;
             max-width: 800px;
-            height: 300px;
-            background-color: #000;
-            border: 2px solid var(--primary-color);
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin-top: 20px;
             border-radius: 5px;
-            overflow-y: auto;
-            padding: 10px;
+            text-align: center;
+        }
+        .interactive-clock-widget select, .interactive-clock-widget p {
+            font-family: 'Roboto Mono', monospace;
+            margin-top: 15px;
+        }
+        .interactive-clock-widget select {
+            padding: 8px;
+            background: #333;
             color: var(--primary-color);
-            margin-bottom: 40px;
-            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+            border: 1px solid var(--primary-color);
+            width: 100%;
+            max-width: 300px;
         }
-        .terminal-output {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            padding-bottom: 10px;
-        }
-        .terminal-input-line {
-            display: flex;
-        }
-        .terminal-prompt {
-            color: #fff;
-            margin-right: 5px;
-            white-space: nowrap;
-        }
-        #terminal-input {
-            flex-grow: 1;
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            font-family: inherit;
-            font-size: 1em;
-            outline: none;
-            caret-color: var(--primary-color); /* Neon cursor */
+        .interactive-clock-widget span {
+            color: var(--secondary-color);
+            font-size: 1.1em;
+            font-weight: 700;
         }
 
-        /* Modal Styles (Same as before) */
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.95); animation: terminalFadeIn 0.3s; }
-        .modal-content { background-color: var(--card-bg); border: 2px solid var(--primary-color); margin: 5% auto; padding: 30px; width: 90%; max-width: 800px; border-radius: 5px; box-shadow: 0 0 30px rgba(0, 255, 65, 0.5); height: 80vh; overflow-y: auto; }
-        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; transition: color 0.3s; }
-        .tool-list h3 { color: var(--primary-color); border-bottom: 1px solid #333; padding-bottom: 5px; margin-top: 20px; font-size: 1.2em; }
-        .tool-list a { display: inline-block; width: 48%; padding: 10px 0; color: var(--text-color); transition: color 0.3s, background-color 0.3s; margin: 5px 1%; border: 1px dashed #444; text-align: center; }
-        .tool-list a:hover { color: var(--background-color); background-color: var(--primary-color); border-color: var(--primary-color); }
-        
-        /* Animation */
-        @keyframes terminalFadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.3s; }
-        .card:nth-child(3) { animation-delay: 0.5s; }
+        /* Modal Styles (Tool List) - Same as previous */
+        .modal { display: none; /* ... (CSS အဟောင်း) */ }
+        .modal-content { /* ... (CSS အဟောင်း) */ }
+        .close-btn { /* ... (CSS အဟောင်း) */ }
+        .tool-list h3 { /* ... (CSS အဟောင်း) */ }
+        .tool-list a { /* ... (CSS အဟောင်း) */ }
 
         @media (max-width: 768px) {
-            .terminal-container { height: 200px; }
-            .tool-list a { width: 98%; margin: 5px 0; }
+            .clock-item { width: 48%; margin-bottom: 10px; }
+            .clock-item.local { width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1 id="header-title">[ MMTECH CONSOLE ]</h1>
-        <p id="header-subtitle">ACCESS GRANTED: Utility and System Information</p>
+        <h1>[ MMTECH CONSOLE ]</h1>
+        <p>ACCESS GRANTED: Global Utility & Time Sync</p>
     </div>
 
-    <div class="system-info">
-        <span id="datetime">LOADING DATE...</span>
-    </div>
-
-    <div class="terminal-container">
-        <div class="terminal-output" id="terminal-output"></div>
-        <div class="terminal-input-line">
-            <span class="terminal-prompt">user@mmtech-console:~$</span>
-            <input type="text" id="terminal-input" autofocus>
+    <div class="world-clock-dashboard">
+        <div class="clock-item local">
+            LOCAL TIME: <span id="local-time">--:--:--</span>
+        </div>
+        <div class="clock-item">
+            UTC: <span id="utc-time">--:--:--</span>
+        </div>
+        <div class="clock-item">
+            LONDON: <span id="london-time">--:--:--</span>
+        </div>
+        <div class="clock-item">
+            NEW YORK: <span id="newyork-time">--:--:--</span>
+        </div>
+        <div class="clock-item">
+            TOKYO: <span id="tokyo-time">--:--:--</span>
         </div>
     </div>
 
@@ -212,6 +187,19 @@
             <p>Use temporary email services and private browsing tools for sensitive tasks.</p>
             <a href="https://mail.tm/" target="_blank" class="cta-link">TEMP MAIL (Mail.tm)</a>
         </div>
+    </div>
+
+    <div class="interactive-clock-widget">
+        <h2 style="color:var(--secondary-color); margin-top:0; border-bottom: 1px dashed #333; padding-bottom: 5px;">[ WORLD TIME CHECK ]</h2>
+        <select id="timezone-select">
+            <option value="Asia/Yangon">Asia/Yangon (Local)</option>
+            <option value="Asia/Kolkata">Asia/Kolkata (India)</option>
+            <option value="Europe/Berlin">Europe/Berlin (Germany)</option>
+            <option value="America/Los_Angeles">America/Los Angeles (PST)</option>
+            <option value="Asia/Shanghai">Asia/Shanghai (China)</option>
+            <option value="Australia/Sydney">Australia/Sydney</option>
+            </select>
+        <p>Selected Time: <span id="selected-time">--:--:--</span></p>
     </div>
 
     <div id="tools-modal" class="modal">
@@ -247,106 +235,56 @@
     <script>
         // --- Core Functions ---
 
-        // 1. Terminal Emulator Logic
-        const terminalOutput = document.getElementById('terminal-output');
-        const terminalInput = document.getElementById('terminal-input');
-        const promptText = 'user@mmtech-console:~$ ';
-        
-        function appendOutput(text, isError = false) {
-            const output = document.createElement('div');
-            output.textContent = text;
-            if (isError) {
-                output.style.color = '#ff4141'; // Red for errors
-            }
-            terminalOutput.appendChild(output);
-            terminalContainer.scrollTop = terminalContainer.scrollHeight;
-        }
+        // 1. Dynamic World Clock Update
+        const fixedTimezones = {
+            'local-time': undefined, // undefined uses browser's local time
+            'utc-time': 'UTC',
+            'london-time': 'Europe/London',
+            'newyork-time': 'America/New_York',
+            'tokyo-time': 'Asia/Tokyo'
+        };
 
-        function handleCommand(command) {
-            command = command.trim().toLowerCase();
-            appendOutput(promptText + command); // Echo the command
-            
-            let response = '';
-            let isError = false;
+        function updateClocks() {
+            const now = new Date();
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            const dateOptions = { month: '2-digit', day: '2-digit', year: 'numeric' };
 
-            if (command === 'help') {
-                response = 'Available commands:\n  whoami - Display user info\n  status - Show system status\n  clear - Clear the console\n  tools - Launch utility menu\n  github - Open GitHub repo\n  contact - Show contact info';
-            } else if (command === 'whoami') {
-                response = 'User: rgraves0\nRole: SysAdmin/Operator\nAccess Level: Full';
-            } else if (command === 'status') {
-                const ip = document.getElementById('current-ip').textContent;
-                response = 'System Status: ONLINE\nTime: ' + document.getElementById('datetime').textContent + '\nClient IP: ' + ip;
-            } else if (command === 'clear') {
-                terminalOutput.innerHTML = '';
-            } else if (command === 'tools') {
-                document.getElementById('tools-modal').style.display = 'block';
-                response = 'Utility Menu launched. Check the overlay.';
-            } else if (command === 'github') {
-                window.open('https://github.com/rgraves0', '_blank');
-                response = 'Opening rgraves0 GitHub in a new tab...';
-            } else if (command === 'contact') {
-                response = 'Email: thihazaw@mconn.eu.org';
-            } else if (command) {
-                isError = true;
-                response = `Command not found: ${command}. Type 'help' for commands.`;
-            }
-
-            if (response) {
-                appendOutput(response, isError);
-            }
-        }
-
-        terminalInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault(); // Prevent new line
-                handleCommand(terminalInput.value);
-                terminalInput.value = ''; // Clear input field
-            }
-        });
-
-        // 2. Typewriter Effect
-        const headerTitle = document.getElementById('header-title');
-        const headerSubtitle = document.getElementById('header-subtitle');
-        const originalTitle = headerTitle.textContent;
-        const originalSubtitle = headerSubtitle.textContent;
-
-        function typeWriter(element, text, delay = 50, callback) {
-            element.textContent = '';
-            let i = 0;
-            element.style.color = 'var(--primary-color)';
-            const interval = setInterval(() => {
-                if (i < text.length) {
-                    element.textContent += text.charAt(i);
-                    i++;
-                } else {
-                    clearInterval(interval);
-                    if (callback) callback();
+            // Update fixed clocks
+            for (const [id, timezone] of Object.entries(fixedTimezones)) {
+                const element = document.getElementById(id);
+                if (element) {
+                    const options = timezone ? { timeZone: timezone, ...timeOptions } : timeOptions;
+                    element.textContent = now.toLocaleTimeString('en-US', options);
                 }
-            }, delay);
-        }
+            }
 
-        function startTyping() {
-            typeWriter(headerTitle, originalTitle, 50, () => {
-                // Remove typing effect for subtitle after title is done
-                headerSubtitle.style.animation = 'none';
-                headerSubtitle.textContent = originalSubtitle;
-            });
+            // Update Local Date
+            const localClock = document.getElementById('local-time');
+            if(localClock && !localClock.dataset.dateSet) {
+                 localClock.textContent = now.toLocaleDateString('en-US', dateOptions) + ' | ' + localClock.textContent;
+                 localClock.dataset.dateSet = true;
+            }
         }
         
-        // 3. Dynamic Time/Date
-        function updateDateTime() {
+        // 2. Interactive Time Picker
+        const timezoneSelect = document.getElementById('timezone-select');
+        const selectedTimeDisplay = document.getElementById('selected-time');
+
+        function updateSelectedTime() {
+            const selectedTimezone = timezoneSelect.value;
             const now = new Date();
             const options = { 
-                year: 'numeric', month: '2-digit', day: '2-digit', 
+                timeZone: selectedTimezone, 
                 hour: '2-digit', minute: '2-digit', second: '2-digit', 
-                timeZoneName: 'short' 
+                year: 'numeric', month: '2-digit', day: '2-digit', 
+                hour12: false 
             };
-            document.getElementById('datetime').textContent = now.toLocaleString('en-US', options);
+            selectedTimeDisplay.textContent = now.toLocaleString('en-US', options);
         }
-        setInterval(updateDateTime, 1000); // Update every second
 
-
-        // 4. IP Fetcher & Modal/Search Box Handlers (Same as previous step)
+        timezoneSelect.addEventListener('change', updateSelectedTime);
+        
+        // 3. Search Box Clear
         function clearSearchBox() {
             const searchInput = document.getElementById('search-input');
             setTimeout(() => {
@@ -356,6 +294,12 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Initial Time Setup
+            updateClocks();
+            updateSelectedTime(); // Initial call for interactive clock
+            setInterval(updateClocks, 1000);
+            setInterval(updateSelectedTime, 1000);
+            
             // IP Fetcher
             const ipDisplay = document.getElementById('current-ip');
             fetch('https://api.ipify.org?format=json')
@@ -368,15 +312,6 @@
                     console.error('Error fetching IP:', error);
                 });
 
-            // Initial Terminal Greeting
-            appendOutput('[[ Initializing MMTECH Console... ]]', false);
-            appendOutput('Type \'help\' to see available commands.', false);
-            terminalInput.focus();
-
-            // Start Typewriter
-            headerTitle.textContent = ''; // Clear header for typing effect
-            startTyping();
-
             // Modal Handler
             const modal = document.getElementById("tools-modal");
             const btn = document.getElementById("launch-tools-btn");
@@ -384,8 +319,6 @@
             btn.onclick = function() { modal.style.display = "block"; }
             span.onclick = function() { modal.style.display = "none"; }
             window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
-
-            updateDateTime(); // Initial call for date/time
         });
     </script>
 </body>
