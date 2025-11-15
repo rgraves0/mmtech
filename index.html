@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMTech - Pro Utility Console v3</title>
+    <title>MMTech - Pro Utility Console</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -14,8 +14,10 @@
         .container { max-width: 1100px; margin: 0 auto; padding: 0 15px; }
 
         .header { text-align: center; margin-bottom: 25px; }
-        .header h1 { font-size: 2.8em; color: var(--p); text-shadow: 0 0 15px var(--p); }
-        .header p { color: #888; }
+        .header h1 { font-size: 2.8em; color: var(--p); text-shadow: 0 0 15px var(--p); letter-spacing: 2px; }
+        .header p { color: #888; font-size: 0.95em; margin-top: 8px; }
+        .header a { color: var(--s); text-decoration: none; margin: 0 8px; font-weight: 600; }
+        .header a:hover { text-shadow: 0 0 8px var(--s); }
 
         .controls { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 20px; }
         .ctrl-btn { background: var(--c); border: 1px solid var(--b); color: var(--t); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.9em; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
@@ -23,10 +25,6 @@
         .status-dot { width: 8px; height: 8px; background: #f00; border-radius: 50%; animation: pulse 2s infinite; }
         .online .status-dot { background: var(--p); }
         @keyframes pulse { 0%,100% {opacity:1} 50%{opacity:0.5} }
-
-        .voice-btn { background: var(--s); color: #000; }
-        .voice-btn.active { animation: listening 1.5s infinite; }
-        @keyframes listening { 0% { box-shadow: 0 0 10px var(--s); } 50% { box-shadow: 0 0 20px var(--s); } 100% { box-shadow: 0 0 10px var(--s); } }
 
         .search-container { max-width: 600px; margin: 0 auto 25px; display: flex; border: 1px solid var(--p); border-radius: 6px; overflow: hidden; }
         .search-container input { flex: 1; padding: 12px; background: #333; border: none; color: var(--p); font-family: inherit; outline: none; }
@@ -69,13 +67,16 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>[ MMTECH PRO v3 ]</h1>
-            <p>AI • Security • Work • Voice Command (မြန်မာလို)</p>
+            <h1>[ MMTECH PRO ]</h1>
+            <p>
+                <a href="#" onclick="openModal('ai-modal')">AI</a> • 
+                <a href="#" onclick="openModal('tools-modal')">Security</a> • 
+                <a href="#" onclick="openModal('work-modal')">Work</a>
+            </p>
         </div>
 
         <div class="controls">
-            <div id="network-status" class="ctrl-btn"><span class="status-dot"></span> <span>Offline</span></div>
-            <div id="voice-btn" class="ctrl-btn voice-btn">အသံဖွင့်</div>
+            <div id="network-status" class="ctrl-btn"><span class="status-dot"></span> <span>Checking...</span></div>
             <div id="clear-history" class="ctrl-btn">Clear History</div>
         </div>
 
@@ -85,14 +86,16 @@
         </form>
         <div class="search-history" id="history-list"></div>
 
+        <!-- Clock Dashboard -->
         <div class="clock-dashboard">
-            <div class="clock-item local">LOCAL: <span id="local-time">--:--:--</span></div>
+            <div class="clock-item local">LOCAL (MM): <span id="local-time">--:--:--</span></div>
             <div class="clock-item">UTC: <span id="utc-time">--:--:--</span></div>
-            <div class="clock-item">LON: <span id="london-time">--:--:--</span></div>
-            <div class="clock-item">NYC: <span id="newyork-time">--:--:--</span></div>
-            <div class="clock-item">TOK: <span id="tokyo-time">--:--:--</span></div>
+            <div class="clock-item">LON (UK): <span id="london-time">--:--:--</span></div>
+            <div class="clock-item">NYC (US): <span id="newyork-time">--:--:--</span></div>
+            <div class="clock-item">TOK (JP): <span id="tokyo-time">--:--:--</span></div>
         </div>
 
+        <!-- Cards -->
         <div class="card-grid">
             <div class="card">
                 <h2>CODE HUB</h2>
@@ -129,23 +132,28 @@
             </div>
         </div>
 
+        <!-- Interactive Clock -->
         <div class="interactive-clock">
             <h2 style="color:var(--s); margin-bottom:10px;">[ WORLD TIME ]</h2>
             <select id="timezone-select">
-                <option value="Asia/Yangon">ရန်ကုန်</option>
-                <option value="Asia/Tokyo">တိုကျို</option>
-                <option value="Europe/London">လန်ဒန်</option>
-                <option value="America/New_York">နယူးယောက်</option>
+                <option value="Asia/Yangon">Myanmar (MM)</option>
+                <option value="America/New_York">United States (US)</option>
+                <option value="Europe/London">United Kingdom (UK)</option>
+                <option value="Asia/Tokyo">Japan (JP)</option>
+                <option value="Asia/Shanghai">China (CN)</option>
+                <option value="Australia/Sydney">Australia (AU)</option>
+                <option value="Europe/Berlin">Germany (DE)</option>
+                <option value="Asia/Dubai">UAE (AE)</option>
             </select>
             <p style="margin-top:15px;">အချိန်: <span id="selected-time">--:--:--</span></p>
         </div>
 
         <div class="footer">
-            MMTech v3 • Voice: မြန်မာလို • <span id="uptime">Loading...</span>
+            MMTech Console • <span id="uptime">Loading...</span>
         </div>
     </div>
 
-    <!-- AI Modal -->
+    <!-- Modals -->
     <div id="ai-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('ai-modal')">x</span>
@@ -156,21 +164,17 @@
                 <a href="https://grok.x.ai" target="_blank">Grok (xAI) <span class="bookmark-star" data-url="https://grok.x.ai">★</span></a>
                 <a href="https://gemini.google.com" target="_blank">Gemini <span class="bookmark-star" data-url="https://gemini.google.com">★</span></a>
                 <a href="https://copilot.microsoft.com" target="_blank">Copilot <span class="bookmark-star" data-url="https://copilot.microsoft.com">★</span></a>
-                <a href="https://claude.ai" target="_blank">Claude <span class="bookmark-star" data-url="https://claude.ai">★</span></a>
 
                 <h3>[2] IMAGE AI (Free)</h3>
                 <a href="https://hotpot.ai/art-generator" target="_blank">Hotpot AI <span class="bookmark-star" data-url="https://hotpot.ai">★</span></a>
                 <a href="https://pixlr.com/ai/" target="_blank">Pixlr AI <span class="bookmark-star" data-url="https://pixlr.com/ai">★</span></a>
-                <a href="https://www.photoroom.com/tools/ai-image-generator" target="_blank">PhotoRoom AI <span class="bookmark-star" data-url="https://photoroom.com">★</span></a>
 
                 <h3>[3] VIDEO AI (Free Tier)</h3>
-                <a href="https://invideo.io/make/ai-video-generator/" target="_blank">InVideo AI <span class="bookmark-star" data-url="https�子://invideo.io">★</span></a>
-                <a href="https://www.capcut.com/tools/ai-video-generator" target="_blank">CapCut AI <span class="bookmark-star" data-url="https://capcut.com">★</span></a>
+                <a href="https://invideo.io/make/ai-video-generator/" target="_blank">InVideo AI <span class="bookmark-star" data-url="https://invideo.io">★</span></a>
             </div>
         </div>
     </div>
 
-    <!-- Work Modal -->
     <div id="work-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('work-modal')">x</span>
@@ -183,20 +187,13 @@
 
                 <h3>[2] AUDIO CONVERT</h3>
                 <a href="https://cloudconvert.com/mp3-converter" target="_blank">Audio Convert <span class="bookmark-star" data-url="https://cloudconvert.com">★</span></a>
-                <a href="https://online-audio-converter.com" target="_blank">Audio Cutter <span class="bookmark-star" data-url="https://online-audio-converter.com">★</span></a>
 
                 <h3>[3] PDF & DOC</h3>
                 <a href="https://smallpdf.com" target="_blank">SmallPDF <span class="bookmark-star" data-url="https://smallpdf.com">★</span></a>
-                <a href="https://ilovepdf.com" target="_blank">iLovePDF <span class="bookmark-star" data-url="https://ilovepdf.com">★</span></a>
-
-                <h3>[4] VIDEO TOOLS</h3>
-                <a href="https://clipchamp.com" target="_blank">Clipchamp <span class="bookmark-star" data-url="https://clipchamp.com">★</span></a>
-                <a href="https://ezgif.com" target="_blank">GIF Maker <span class="bookmark-star" data-url="https://ezgif.com">★</span></a>
             </div>
         </div>
     </div>
 
-    <!-- Main Tools Modal -->
     <div id="tools-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('tools-modal')">x</span>
@@ -205,17 +202,10 @@
                 <h3>[1] NETWORK</h3>
                 <a href="https://dnschecker.org/" target="_blank">DNS Checker <span class="bookmark-star" data-url="https://dnschecker.org/">★</span></a>
                 <a href="https://www.whois.com/whois/" target="_blank">WHOIS <span class="bookmark-star" data-url="https://www.whois.com/whois/">★</span></a>
-                <a href="https://ping.eu/port-check/" target="_blank">Port Scanner <span class="bookmark-star" data-url="https://ping.eu/port-check/">★</span></a>
 
                 <h3>[2] CYBER SECURITY</h3>
                 <a href="https://www.virustotal.com/" target="_blank">VirusTotal <span class="bookmark-star" data-url="https://www.virustotal.com/">★</span></a>
                 <a href="https://haveibeenpwned.com/" target="_blank">Pwned Check <span class="bookmark-star" data-url="https://haveibeenpwned.com/">★</span></a>
-                <a href="https://securityheaders.com" target="_blank">Security Headers <span class="bookmark-star" data-url="https://securityheaders.com">★</span></a>
-                <a href="https://observatory.mozilla.org" target="_blank">Mozilla Observatory <span class="bookmark-star" data-url="https://observatory.mozilla.org">★</span></a>
-                <a href="https://shodan.io" target="_blank">Shodan <span class="bookmark-star" data-url="https://shodan.io">★</span></a>
-                <a href="https://censys.io" target="_blank">Censys <span class="bookmark-star" data-url="https://censys.io">★</span></a>
-                <a href="https://crt.sh" target="_blank">Certificate Search <span class="bookmark-star" data-url="https://crt.sh">★</span></a>
-                <a href="https://passwordsgenerator.net/" target="_blank">Password Gen <span class="bookmark-star" data-url="https://passwordsgenerator.net/">★</span></a>
 
                 <h3>[3] BOOKMARKED</h3>
                 <div id="bookmark-list">Click ★ to save</div>
@@ -224,14 +214,10 @@
     </div>
 
     <audio id="click-sound" src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==" preload="auto"></audio>
-    <audio id="speak-sound" src="" preload="auto"></audio>
 
     <script>
-        // === Core ===
-        const modals = { 'tools-modal': null, 'ai-modal': null, 'work-modal': null };
         const ipSpan = document.getElementById('current-ip');
         const copyFeedback = document.getElementById('copy-feedback');
-        const voiceBtn = document.getElementById('voice-btn');
         const networkStatus = document.getElementById('network-status');
         const historyList = document.getElementById('history-list');
         const clearHistoryBtn = document.getElementById('clear-history');
@@ -239,71 +225,120 @@
         const sound = document.getElementById('click-sound');
 
         function playClick() { sound.currentTime = 0; sound.play().catch(()=>{}); }
-        function speak(text) {
-            const utter = new SpeechSynthesisUtterance(text);
-            utter.lang = 'my-MM';
-            speechSynthesis.speak(utter);
-        }
 
-        // === Voice Recognition (Myanmar) ===
-        let recognition;
-        if ('webkitSpeechRecognition' in window) {
-            recognition = new webkitSpeechRecognition();
-            recognition.continuous = false;
-            recognition.lang = 'my-MM';
-            recognition.interimResults = false;
-
-            recognition.onresult = (e) => {
-                const command = e.results[0][0].transcript.toLowerCase().trim();
-                handleVoiceCommand(command);
-                voiceBtn.classList.remove('active');
-            };
-            recognition.onerror = () => voiceBtn.classList.remove('active');
-            recognition.onend = () => voiceBtn.classList.remove('active');
-        }
-
-        voiceBtn.onclick = () => {
-            if (recognition) {
-                voiceBtn.classList.add('active');
-                recognition.start();
-                playClick();
-            } else {
-                alert('Voice not supported in this browser.');
-            }
+        // Clock
+        const zones = {
+            'local-time': null, 'utc-time': 'UTC', 'london-time': 'Europe/London',
+            'newyork-time': 'America/New_York', 'tokyo-time': 'Asia/Tokyo'
         };
 
-        function handleVoiceCommand(cmd) {
-            if (cmd.includes('ရှာပါ')) {
-                const query = cmd.replace('ရှာပါ', '').trim();
-                document.querySelector('#search-form input').value = query;
-                document.getElementById('search-form').submit();
-            } else if (cmd.includes('ဖွင့်ပါ')) {
-                const target = cmd.replace('ဖွင့်ပါ', '').trim();
-                if (target.includes('tool')) openModal('tools-modal');
-                else if (target.includes('ai')) openModal('ai-modal');
-                else if (target.includes('work')) openModal('work-modal');
-                else if (target.includes('chatgpt')) window.open('https://chat.openai.com', '_blank');
-                else if (target.includes('grok')) window.open('https://grok.x.ai', '_blank');
-            } else if (cmd.includes('အချိန်')) {
-                const now = new Date().toLocaleString('my-MM');
-                speak('အခုအချိန်က ' + now);
-            } else if (cmd.includes('ပိတ်')) {
-                Object.keys(modals).forEach(m => closeModal(m));
+        function updateClocks() {
+            const now = new Date();
+            const timeOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            const dateOpts = { day: '2-digit', month: '2-digit', year: 'numeric' };
+
+            Object.entries(zones).forEach(([id, tz]) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = now.toLocaleTimeString('en', tz ? {timeZone: tz, ...timeOpts} : timeOpts);
+            });
+
+            const local = document.getElementById('local-time');
+            if (local && !local.dataset.date) {
+                local.textContent = now.toLocaleDateString('en-GB', dateOpts) + ' | ' + local.textContent;
+                local.dataset.date = '1';
             }
         }
 
-        // === Open/Close Modal ===
+        const tzSelect = document.getElementById('timezone-select');
+        const selTime = document.getElementById('selected-time');
+        function updateSelTime() {
+            const now = new Date();
+            const opts = { timeZone: tzSelect.value, hour: '2-digit', minute: '2-digit', second: '2-digit', year: 'numeric', month: '2-digit', day: '2-digit', hour12: false };
+            selTime.textContent = now.toLocaleString('en-GB', opts);
+        }
+        tzSelect.addEventListener('change', updateSelTime);
+
         function openModal(id) { document.getElementById(id).style.display = 'block'; loadBookmarks(); playClick(); }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         window.onclick = e => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; };
 
-        // === Other Features (same as before) ===
-        // ... (IP, Clock, Search History, Bookmark, Network, Uptime) ...
+        function updateNetwork() {
+            const isOnline = navigator.onLine;
+            networkStatus.classList.toggle('online', isOnline);
+            networkStatus.querySelector('span').textContent = isOnline ? 'Online' : 'Offline';
+        }
+        window.addEventListener('online', updateNetwork);
+        window.addEventListener('offline', updateNetwork);
 
-        // Init
+        fetch('https://api.ipify.org?format=json')
+            .then(r => r.json())
+            .then(d => {
+                ipSpan.textContent = d.ip;
+                ipSpan.onclick = () => {
+                    navigator.clipboard.writeText(d.ip);
+                    copyFeedback.style.display = 'inline';
+                    setTimeout(() => copyFeedback.style.display = 'none', 1500);
+                    playClick();
+                };
+            })
+            .catch(() => ipSpan.textContent = 'Error');
+
+        function addToHistory(q) {
+            if (!q.trim()) return;
+            let h = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+            h = h.filter(x => x !== q); h.unshift(q);
+            if (h.length > 10) h.pop();
+            localStorage.setItem('searchHistory', JSON.stringify(h));
+            renderHistory();
+        }
+        function renderHistory() {
+            const h = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+            historyList.innerHTML = h.map(q => `<span class="history-item" onclick="document.querySelector('#search-form input').value='${q}';document.getElementById('search-form').submit()">${q}</span>`).join('');
+        }
+        clearHistoryBtn.onclick = () => { localStorage.removeItem('searchHistory'); renderHistory(); playClick(); };
+
+        function loadBookmarks() {
+            const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+            document.querySelectorAll('.bookmark-star').forEach(star => {
+                star.classList.toggle('active', bookmarks.includes(star.dataset.url));
+                star.onclick = () => {
+                    let b = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+                    if (b.includes(star.dataset.url)) b = b.filter(x => x !== star.dataset.url);
+                    else b.push(star.dataset.url);
+                    localStorage.setItem('bookmarks', JSON.stringify(b));
+                    loadBookmarks();
+                    playClick();
+                };
+            });
+            const list = bookmarkList;
+            list.innerHTML = bookmarks.length === 0 ? 'Click ★ to save' : bookmarks.map(url => {
+                const name = url.split('/').pop().replace(/-/g,' ').toUpperCase();
+                return `<a href="${url}" target="_blank" style="color:var(--p);">${name} ↗</a><br>`;
+            }).join('');
+        }
+
+        document.getElementById('search-form').onsubmit = function() {
+            const q = this.q.value.trim();
+            if (q) addToHistory(q);
+            setTimeout(() => this.q.value = '', 100);
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
-            // All init code...
+            updateClocks();
+            updateSelTime();
+            updateNetwork();
+            renderHistory();
+            loadBookmarks();
             document.getElementById('launch-tools').onclick = () => openModal('tools-modal');
+
+            setInterval(updateClocks, 1000);
+            setInterval(updateSelTime, 1000);
+
+            const start = Date.now();
+            setInterval(() => {
+                const sec = Math.floor((Date.now() - start)/1000);
+                document.getElementById('uptime').textContent = `Uptime: ${Math.floor(sec/60)}m ${sec%60}s`;
+            }, 1000);
         });
     </script>
 </body>
