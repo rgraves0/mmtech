@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MMTech - Pro Utility Console</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%2300ff41' stroke='%2300d4ff' stroke-width='5'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='%231a1a1a' font-family='Roboto Mono, monospace' font-size='20' font-weight='700'%3EMM%3C/text%3E%3C/svg%3E" type="image/svg+xml">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -130,6 +131,12 @@
                 <p>Temp mail, anonymous tools.</p>
                 <a href="https://mail.tm/" target="_blank" class="cta-link">TEMP MAIL</a>
             </div>
+
+            <div class="card">
+                <h2>CLOUD STORAGE</h2>
+                <p>Free cloud storage services worldwide.</p>
+                <a href="#" class="cta-link" onclick="openModal('cloud-modal')">OPEN CLOUD TOOLS</a>
+            </div>
         </div>
 
         <!-- Interactive Clock -->
@@ -137,13 +144,256 @@
             <h2 style="color:var(--s); margin-bottom:10px;">[ WORLD TIME ]</h2>
             <select id="timezone-select">
                 <option value="Asia/Yangon">Myanmar (MM)</option>
-                <option value="America/New_York">United States (US)</option>
-                <option value="Europe/London">United Kingdom (UK)</option>
-                <option value="Asia/Tokyo">Japan (JP)</option>
-                <option value="Asia/Shanghai">China (CN)</option>
-                <option value="Australia/Sydney">Australia (AU)</option>
-                <option value="Europe/Berlin">Germany (DE)</option>
+                <option value="Asia/Kathmandu">Nepal (NP)</option>
+                <option value="Asia/Colombo">Sri Lanka (LK)</option>
+                <option value="Asia/Dhaka">Bangladesh (BD)</option>
+                <option value="Asia/Kolkata">India (IN)</option>
+                <option value="Asia/Thimphu">Bhutan (BT)</option>
+                <option value="Asia/Kabul">Afghanistan (AF)</option>
+                <option value="Asia/Tehran">Iran (IR)</option>
                 <option value="Asia/Dubai">UAE (AE)</option>
+                <option value="Asia/Baku">Azerbaijan (AZ)</option>
+                <option value="Asia/Yerevan">Armenia (AM)</option>
+                <option value="Asia/Baghdad">Iraq (IQ)</option>
+                <option value="Europe/Moscow">Russia (RU)</option>
+                <option value="Asia/Riyadh">Saudi Arabia (SA)</option>
+                <option value="Africa/Cairo">Egypt (EG)</option>
+                <option value="Europe/Paris">France (FR)</option>
+                <option value="Europe/London">United Kingdom (UK)</option>
+                <option value="Europe/Berlin">Germany (DE)</option>
+                <option value="Europe/Rome">Italy (IT)</option>
+                <option value="Europe/Madrid">Spain (ES)</option>
+                <option value="Africa/Johannesburg">South Africa (ZA)</option>
+                <option value="Europe/Warsaw">Poland (PL)</option>
+                <option value="Europe/Helsinki">Finland (FI)</option>
+                <option value="Europe/Athens">Greece (GR)</option>
+                <option value="America/New_York">United States (US)</option>
+                <option value="America/Chicago">United States Central (US)</option>
+                <option value="America/Denver">United States Mountain (US)</option>
+                <option value="America/Los_Angeles">United States Pacific (US)</option>
+                <option value="America/Toronto">Canada (CA)</option>
+                <option value="America/Mexico_City">Mexico (MX)</option>
+                <option value="America/Santiago">Chile (CL)</option>
+                <option value="America/Buenos_Aires">Argentina (AR)</option>
+                <option value="America/Bogota">Colombia (CO)</option>
+                <option value="America/Lima">Peru (PE)</option>
+                <option value="America/La_Paz">Bolivia (BO)</option>
+                <option value="Atlantic/Cape_Verde">Cape Verde (CV)</option>
+                <option value="Africa/Accra">Ghana (GH)</option>
+                <option value="Africa/Nairobi">Kenya (KE)</option>
+                <option value="Africa/Lagos">Nigeria (NG)</option>
+                <option value="Africa/Casablanca">Morocco (MA)</option>
+                <option value="Europe/Istanbul">Turkey (TR)</option>
+                <option value="Asia/Jerusalem">Israel (IL)</option>
+                <option value="Asia/Amman">Jordan (JO)</option>
+                <option value="Asia/Beirut">Lebanon (LB)</option>
+                <option value="Asia/Kuwait">Kuwait (KW)</option>
+                <option value="Asia/Qatar">Qatar (QA)</option>
+                <option value="Asia/Muscat">Oman (OM)</option>
+                <option value="Asia/Aqtau">Kazakhstan West (KZ)</option>
+                <option value="Asia/Almaty">Kazakhstan (KZ)</option>
+                <option value="Asia/Qyzylorda">Kazakhstan Qyzylorda (KZ)</option>
+                <option value="Asia/Qostanay">Kazakhstan Qostanay (KZ)</option>
+                <option value="Asia/Aqtobe">Kazakhstan Aqtobe (KZ)</option>
+                <option value="Asia/Tashkent">Uzbekistan (UZ)</option>
+                <option value="Asia/Samarkand">Uzbekistan Samarkand (UZ)</option>
+                <option value="Asia/Dushanbe">Tajikistan (TJ)</option>
+                <option value="Asia/Bishkek">Kyrgyzstan (KG)</option>
+                <option value="Asia/Ashgabat">Turkmenistan (TM)</option>
+                <option value="Asia/Tbilisi">Georgia (GE)</option>
+                <option value="Asia/Famagusta">Cyprus Famagusta (CY)</option>
+                <option value="Asia/Nicosia">Cyprus (CY)</option>
+                <option value="Asia/Gaza">Palestine Gaza (PS)</option>
+                <option value="Asia/Hebron">Palestine Hebron (PS)</option>
+                <option value="Asia/Seoul">South Korea (KR)</option>
+                <option value="Asia/Pyongyang">North Korea (KP)</option>
+                <option value="Asia/Hong_Kong">Hong Kong (HK)</option>
+                <option value="Asia/Macau">Macau (MO)</option>
+                <option value="Asia/Taipei">Taiwan (TW)</option>
+                <option value="Asia/Shanghai">China (CN)</option>
+                <option value="Asia/Urumqi">China Xinjiang (CN)</option>
+                <option value="Asia/Kashgar">China Kashgar (CN)</option>
+                <option value="Asia/Harbin">China Heilongjiang (CN)</option>
+                <option value="Asia/Chongqing">China Chongqing (CN)</option>
+                <option value="Asia/Ulaanbaatar">Mongolia (MN)</option>
+                <option value="Asia/Choibalsan">Mongolia Choibalsan (MN)</option>
+                <option value="Asia/Tokyo">Japan (JP)</option>
+                <option value="Asia/Ho_Chi_Minh">Vietnam (VN)</option>
+                <option value="Asia/Bangkok">Thailand (TH)</option>
+                <option value="Asia/Vientiane">Laos (LA)</option>
+                <option value="Asia/Phnom_Penh">Cambodia (KH)</option>
+                <option value="Asia/Hovd">Mongolia Hovd (MN)</option>
+                <option value="Asia/Saigon">Vietnam Saigon (VN)</option>
+                <option value="Asia/Brunei">Brunei (BN)</option>
+                <option value="Asia/Makassar">Indonesia Central (ID)</option>
+                <option value="Asia/Jayapura">Indonesia East (ID)</option>
+                <option value="Asia/Pontianak">Indonesia West (ID)</option>
+                <option value="Asia/Jakarta">Indonesia (ID)</option>
+                <option value="Australia/Perth">Australia Western (AU)</option>
+                <option value="Australia/Eucla">Australia Eucla (AU)</option>
+                <option value="Australia/Darwin">Australia Northern (AU)</option>
+                <option value="Australia/Adelaide">Australia South (AU)</option>
+                <option value="Australia/Sydney">Australia (AU)</option>
+                <option value="Australia/Lord_Howe">Australia Lord Howe (AU)</option>
+                <option value="Pacific/Guadalcanal">Solomon Islands (SB)</option>
+                <option value="Pacific/Fiji">Fiji (FJ)</option>
+                <option value="Pacific/Auckland">New Zealand (NZ)</option>
+                <option value="Pacific/Chatham">New Zealand Chatham (NZ)</option>
+                <option value="Pacific/Honolulu">Hawaii (US)</option>
+                <option value="Pacific/Rarotonga">Cook Islands (CK)</option>
+                <option value="Pacific/Tahiti">French Polynesia (PF)</option>
+                <option value="Pacific/Marquesas">French Polynesia Marquesas (PF)</option>
+                <option value="Pacific/Gambier">French Polynesia Gambier (PF)</option>
+                <option value="Pacific/Port_Moresby">Papua New Guinea (PG)</option>
+                <option value="Pacific/Noumea">New Caledonia (NC)</option>
+                <option value="Pacific/Norfolk">Norfolk Island (NF)</option>
+                <option value="Pacific/Pohnpei">Micronesia Pohnpei (FM)</option>
+                <option value="Pacific/Truk">Micronesia Chuuk (FM)</option>
+                <option value="Pacific/Kosrae">Micronesia Kosrae (FM)</option>
+                <option value="Pacific/Yap">Micronesia Yap (FM)</option>
+                <option value="Pacific/Majuro">Marshall Islands (MH)</option>
+                <option value="Pacific/Kwajalein">Marshall Islands Kwajalein (MH)</option>
+                <option value="Pacific/Tarawa">Kiribati (KI)</option>
+                <option value="Pacific/Enderbury">Kiribati Enderbury (KI)</option>
+                <option value="Pacific/Kiritimati">Kiribati Kiritimati (KI)</option>
+                <option value="Pacific/Apia">Samoa (WS)</option>
+                <option value="Pacific/Midway">US Minor Outlying Islands (UM)</option>
+                <option value="Pacific/Fakaofo">Tokelau (TK)</option>
+                <option value="Pacific/Niue">Niue (NU)</option>
+                <option value="Pacific/Pago_Pago">American Samoa (AS)</option>
+                <option value="Pacific/Tongatapu">Tonga (TO)</option>
+                <option value="Pacific/Funafuti">Tuvalu (TV)</option>
+                <option value="Pacific/Wake">US Minor Outlying Islands Wake (UM)</option>
+                <option value="Pacific/Wallis">Wallis and Futuna (WF)</option>
+                <option value="America/Anchorage">Alaska (US)</option>
+                <option value="America/Sitka">Alaska Sitka (US)</option>
+                <option value="America/Metlakatla">Alaska Metlakatla (US)</option>
+                <option value="America/Juneau">Alaska Juneau (US)</option>
+                <option value="America/Yakutat">Alaska Yakutat (US)</option>
+                <option value="America/Nome">Alaska Nome (US)</option>
+                <option value="America/Adak">Aleutian Islands (US)</option>
+                <option value="America/Atikokan">Canada Atikokan (CA)</option>
+                <option value="America/Blanc-Sablon">Canada Blanc-Sablon (CA)</option>
+                <option value="America/Campo_Bel">Brazil (BR)</option>
+                <option value="America/Belem">Brazil Belem (BR)</option>
+                <option value="America/Boa_Vista">Brazil Boa Vista (BR)</option>
+                <option value="America/Campo_Grande">Brazil Mato Grosso do Sul (BR)</option>
+                <option value="America/Cuiaba">Brazil Mato Grosso (BR)</option>
+                <option value="America/Araguaina">Brazil Araguaina (BR)</option>
+                <option value="America/Bahia">Brazil Bahia (BR)</option>
+                <option value="America/Fortaleza">Brazil Fortaleza (BR)</option>
+                <option value="America/Recife">Brazil Recife (BR)</option>
+                <option value="America/Maceio">Brazil Maceio (BR)</option>
+                <option value="America/Sao_Luis">Brazil Sao Luis (BR)</option>
+                <option value="America/Manaus">Brazil Amazonas (BR)</option>
+                <option value="America/Rio_Branco">Brazil Acre (BR)</option>
+                <option value="America/Porto_Velho">Brazil Rondonia (BR)</option>
+                <option value="America/Boa_Vista">Brazil Boa Vista (BR)</option>
+                <option value="America/Campo_Grande">Brazil Mato Grosso do Sul (BR)</option>
+                <option value="America/Porto_Alegre">Brazil Porto Alegre (BR)</option>
+                <option value="America/Sao_Paulo">Brazil Sao Paulo (BR)</option>
+                <option value="America/Noronha">Brazil Noronha (BR)</option>
+                <option value="America/Eirunepe">Brazil Eirunepe (BR)</option>
+                <option value="America/Santarem">Brazil Santarem (BR)</option>
+                <option value="America/Guayaquil">Ecuador (EC)</option>
+                <option value="America/Guyana">Guyana (GY)</option>
+                <option value="America/Port-au-Prince">Haiti (HT)</option>
+                <option value="America/Porto_Velho">Brazil Rondonia (BR)</option>
+                <option value="America/Thule">Thule (GL)</option>
+                <option value="America/Godthab">Nuuk (GL)</option>
+                <option value="America/Danmarkshavn">Danmarkshavn (GL)</option>
+                <option value="America/Scoresbysund">Ittoqqortoormiit (GL)</option>
+                <option value="America/Santa_Isabel">Mexico Santa Isabel (MX)</option>
+                <option value="America/Matamoros">Mexico Matamoros (MX)</option>
+                <option value="America/Merida">Mexico Merida (MX)</option>
+                <option value="America/Monterrey">Mexico Monterrey (MX)</option>
+                <option value="America/Mexico_City">Mexico Mexico City (MX)</option>
+                <option value="America/Chihuahua">Mexico Chihuahua (MX)</option>
+                <option value="America/Ojinaga">Mexico Ojinaga (MX)</option>
+                <option value="America/Mazatlan">Mexico Mazatlan (MX)</option>
+                <option value="America/Bahia_Banderas">Mexico Bahia Banderas (MX)</option>
+                <option value="America/Tijuana">Mexico Tijuana (MX)</option>
+                <option value="America/Hermosillo">Mexico Hermosillo (MX)</option>
+                <option value="America/Metlakatla">Alaska Metlakatla (US)</option>
+                <option value="America/Detroit">America Detroit (US)</option>
+                <option value="America/Indiana/Indianapolis">America Indiana Indianapolis (US)</option>
+                <option value="America/Indiana/Indianapolis">America Indiana Indianapolis (US)</option>
+                <option value="America/Indiana/Marengo">America Indiana Marengo (US)</option>
+                <option value="America/Indiana/Winamac">America Indiana Winamac (US)</option>
+                <option value="America/Indiana/Petersburg">America Indiana Petersburg (US)</option>
+                <option value="America/Indiana/Vevay">America Indiana Vevay (US)</option>
+                <option value="America/Kentucky/Louisville">America Kentucky Louisville (US)</option>
+                <option value="America/Kentucky/Monticello">America Kentucky Monticello (US)</option>
+                <option value="America/Nassau">Bahamas (BS)</option>
+                <option value="America/Port_of_Spain">Trinidad and Tobago (TT)</option>
+                <option value="America/Montreal">Canada Montreal (CA)</option>
+                <option value="America/Toronto">Canada Toronto (CA)</option>
+                <option value="America/Winnipeg">Canada Winnipeg (CA)</option>
+                <option value="America/Rainy_River">Canada Rainy River (CA)</option>
+                <option value="America/Resolute">Canada Resolute (CA)</option>
+                <option value="America/Fort_Nelson">Canada Fort Nelson (CA)</option>
+                <option value="America/Dawson_Creek">Canada Dawson Creek (CA)</option>
+                <option value="America/Vancouver">Canada Vancouver (CA)</option>
+                <option value="America/Whitehorse">Canada Whitehorse (CA)</option>
+                <option value="America/Inuvik">Canada Inuvik (CA)</option>
+                <option value="America/Creston">Canada Creston (CA)</option>
+                <option value="America/Pangnirtung">Canada Pangnirtung (CA)</option>
+                <option value="America/Iqaluit">Canada Iqaluit (CA)</option>
+                <option value="America/Cambridge_Bay">Canada Cambridge Bay (CA)</option>
+                <option value="America/Edmonton">Canada Edmonton (CA)</option>
+                <option value="America/Yellowknife">Canada Yellowknife (CA)</option>
+                <option value="America/Nipigon">Canada Nipigon (CA)</option>
+                <option value="America/Thunder_Bay">Canada Thunder Bay (CA)</option>
+                <option value="America/Fort_Wayne">America Fort Wayne (US)</option>
+                <option value="America/Indiana/Knox">America Indiana Knox (US)</option>
+                <option value="America/Tallahassee">America Tallahassee (US)</option>
+                <option value="America/New_York">America New York (US)</option>
+                <option value="America/Port-au-Prince">Haiti (HT)</option>
+                <option value="America/Goose_Bay">Canada Goose Bay (CA)</option>
+                <option value="America/Miquelon">Saint Pierre and Miquelon (PM)</option>
+                <option value="America/Argentina/Buenos_Aires">Argentina Buenos Aires (AR)</option>
+                <option value="America/Argentina/Cordoba">Argentina Cordoba (AR)</option>
+                <option value="America/Argentina/Salta">Argentina Salta (AR)</option>
+                <option value="America/Argentina/Jujuy">Argentina Jujuy (AR)</option>
+                <option value="America/Argentina/Tucuman">Argentina Tucuman (AR)</option>
+                <option value="America/Argentina/Catamarca">Argentina Catamarca (AR)</option>
+                <option value="America/Argentina/La_Rioja">Argentina La Rioja (AR)</option>
+                <option value="America/Argentina/San_Juan">Argentina San Juan (AR)</option>
+                <option value="America/Argentina/Mendoza">Argentina Mendoza (AR)</option>
+                <option value="America/Argentina/San_Luis">Argentina San Luis (AR)</option>
+                <option value="America/Argentina/Rio_Gallegos">Argentina Rio Gallegos (AR)</option>
+                <option value="America/Argentina/Ushuaia">Argentina Ushuaia (AR)</option>
+                <option value="America/Curacao">Curacao (CW)</option>
+                <option value="America/St_Johns">Canada St Johns (CA)</option>
+                <option value="America/Antigua">Antigua and Barbuda (AG)</option>
+                <option value="America/Anguilla">Anguilla (AI)</option>
+                <option value="America/Barbados">Barbados (BB)</option>
+                <option value="America/Dominica">Dominica (DM)</option>
+                <option value="America/Grenada">Grenada (GD)</option>
+                <option value="America/Guadeloupe">Guadeloupe (GP)</option>
+                <option value="America/Guyana">Guyana (GY)</option>
+                <option value="America/Martinique">Martinique (MQ)</option>
+                <option value="America/Montserrat">Montserrat (MS)</option>
+                <option value="America/Port_of_Spain">Trinidad and Tobago (TT)</option>
+                <option value="America/St_Kitts">Saint Kitts and Nevis (KN)</option>
+                <option value="America/St_Lucia">Saint Lucia (LC)</option>
+                <option value="America/St_Thomas">US Virgin Islands (VI)</option>
+                <option value="America/St_Vincent">Saint Vincent and the Grenadines (VC)</option>
+                <option value="America/Aruba">Aruba (AW)</option>
+                <option value="America/Bermuda">Bermuda (BM)</option>
+                <option value="America/Cayman">Cayman Islands (KY)</option>
+                <option value="America/Grand_Turk">Turks and Caicos Islands (TC)</option>
+                <option value="America/Havana">Cuba (CU)</option>
+                <option value="America/Santo_Domingo">Dominican Republic (DO)</option>
+                <option value="America/El_Salvador">El Salvador (SV)</option>
+                <option value="America/Guatemala">Guatemala (GT)</option>
+                <option value="America/Tegucigalpa">Honduras (HN)</option>
+                <option value="America/Jamaica">Jamaica (JM)</option>
+                <option value="America/Costa_Rica">Costa Rica (CR)</option>
+                <option value="America/Panama">Panama (PA)</option>
+                <option value="America/Managua">Nicaragua (NI)</option>
+                <option value="America/Belize">Belize (BZ)</option>
+                <option value="UTC">UTC</option>
             </select>
             <p style="margin-top:15px;">အချိန်: <span id="selected-time">--:--:--</span></p>
         </div>
@@ -156,7 +406,7 @@
     <!-- Modals -->
     <div id="ai-modal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('ai-modal')">x</span>
+            <span class="close-btn" onclick="closeModal('ai-modal')">×</span>
             <h2 style="text-align:center; color:var(--p);">[ AI SUITE ]</h2>
             <div class="tool-list">
                 <h3>[1] CHAT AI</h3>
@@ -177,7 +427,7 @@
 
     <div id="work-modal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('work-modal')">x</span>
+            <span class="close-btn" onclick="closeModal('work-modal')">×</span>
             <h2 style="text-align:center; color:var(--p);">[ ONLINE WORK TOOLS ]</h2>
             <div class="tool-list">
                 <h3>[1] PHOTO EDIT</h3>
@@ -196,7 +446,7 @@
 
     <div id="tools-modal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('tools-modal')">x</span>
+            <span class="close-btn" onclick="closeModal('tools-modal')">×</span>
             <h2 style="text-align:center; color:var(--p);">[ UTILITY SUITE ]</h2>
             <div class="tool-list">
                 <h3>[1] NETWORK</h3>
@@ -209,6 +459,49 @@
 
                 <h3>[3] BOOKMARKED</h3>
                 <div id="bookmark-list">Click ★ to save</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cloud-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('cloud-modal')">×</span>
+            <h2 style="text-align:center; color:var(--p);">[ CLOUD STORAGE (FREE) ]</h2>
+            <div class="tool-list">
+                <h3>[1] US & WESTERN</h3>
+                <a href="https://drive.google.com" target="_blank">Google Drive (15GB) <span class="bookmark-star" data-url="https://drive.google.com">★</span></a>
+                <a href="https://onedrive.live.com" target="_blank">Microsoft OneDrive (5GB) <span class="bookmark-star" data-url="https://onedrive.live.com">★</span></a>
+                <a href="https://www.dropbox.com" target="_blank">Dropbox (2GB) <span class="bookmark-star" data-url="https://www.dropbox.com">★</span></a>
+                <a href="https://www.mega.nz" target="_blank">MEGA (20GB) <span class="bookmark-star" data-url="https://www.mega.nz">★</span></a>
+                <a href="https://www.pcloud.com" target="_blank">pCloud (10GB) <span class="bookmark-star" data-url="https://www.pcloud.com">★</span></a>
+                <a href="https://www.icloud.com" target="_blank">iCloud (5GB) <span class="bookmark-star" data-url="https://www.icloud.com">★</span></a>
+                <a href="https://www.box.com" target="_blank">Box (10GB) <span class="bookmark-star" data-url="https://www.box.com">★</span></a>
+                <a href="https://sync.com" target="_blank">Sync.com (5GB) <span class="bookmark-star" data-url="https://sync.com">★</span></a>
+                <a href="https://www.mediafire.com" target="_blank">MediaFire (10GB) <span class="bookmark-star" data-url="https://www.mediafire.com">★</span></a>
+                <a href="https://www.icedrive.net" target="_blank">Icedrive (10GB) <span class="bookmark-star" data-url="https://www.icedrive.net">★</span></a>
+
+                <h3>[2] ASIA - CHINA</h3>
+                <a href="https://www.aliyun.com/product/oss" target="_blank">Alibaba Cloud OSS (5GB) <span class="bookmark-star" data-url="https://www.aliyun.com/product/oss">★</span></a>
+                <a href="https://cloud.tencent.com/product/cos" target="_blank">Tencent Cloud COS (5GB) <span class="bookmark-star" data-url="https://cloud.tencent.com/product/cos">★</span></a>
+                <a href="https://www.baidu.com/pan" target="_blank">Baidu Netdisk (2TB) <span class="bookmark-star" data-url="https://www.baidu.com/pan">★</span></a>
+                <a href="https://pan.360.cn" target="_blank">360 Cloud (36GB) <span class="bookmark-star" data-url="https://pan.360.cn">★</span></a>
+
+                <h3>[3] ASIA - KOREA & JAPAN</h3>
+                <a href="https://drive.naver.com" target="_blank">Naver MYBOX (30GB) <span class="bookmark-star" data-url="https://drive.naver.com">★</span></a>
+                <a href="https://onedrive.kakao.com" target="_blank">Kakao Drive (20GB) <span class="bookmark-star" data-url="https://onedrive.kakao.com">★</span></a>
+                <a href="https://www.sugarsync.com" target="_blank">SugarSync (5GB) <span class="bookmark-star" data-url="https://www.sugarsync.com">★</span></a>
+
+                <h3>[4] ASIA - THAILAND & INDIA</h3>
+                <a href="https://www.jasmin.com" target="_blank">Jasmin Cloud (5GB) <span class="bookmark-star" data-url="https://www.jasmin.com">★</span></a>
+                <a href="https://cloud.jio.com" target="_blank">JioCloud (5GB) <span class="bookmark-star" data-url="https://cloud.jio.com">★</span></a>
+                <a href="https://www.mega.co.nz" target="_blank">Mega (NZ-based, Asia servers, 20GB) <span class="bookmark-star" data-url="https://www.mega.co.nz">★</span></a>
+
+                <h3>[5] OTHER REGIONS</h3>
+                <a href="https://www.degreedisk.com" target="_blank">Degoo (100GB) <span class="bookmark-star" data-url="https://www.degreedisk.com">★</span></a>
+                <a href="https://internxt.com" target="_blank">Internxt (10GB) <span class="bookmark-star" data-url="https://internxt.com">★</span></a>
+                <a href="https://www.treedom.io" target="_blank">TeraBox (1TB) <span class="bookmark-star" data-url="https://www.treedom.io">★</span></a>
+                <a href="https://hivenet.com" target="_blank">Hivenet (10GB) <span class="bookmark-star" data-url="https://hivenet.com">★</span></a>
+                <a href="https://www.zoho.com/docs" target="_blank">Zoho WorkDrive (15GB) <span class="bookmark-star" data-url="https://www.zoho.com/docs">★</span></a>
             </div>
         </div>
     </div>
