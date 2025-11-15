@@ -2,17 +2,19 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-width=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MMTech - Global Utility Console</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #00ff41; /* Neon Green */
-            --secondary-color: #3498db; /* Tech Blue */
-            --background-color: #1a1a1a; /* Dark Background */
+            --primary-color: #00ff41;
+            --secondary-color: #3498db;
+            --background-color: #1a1a1a;
             --text-color: #e0e0e0;
             --card-bg: #222222;
             --border-color: #004d14;
+            --modal-bg: #1e1e1e;
+            --modal-border: #00ff41;
         }
         body {
             font-family: 'Roboto Mono', monospace;
@@ -46,7 +48,7 @@
             color: #999;
             font-weight: 400;
         }
-        
+
         /* World Clock Dashboard */
         .world-clock-dashboard {
             width: 90%;
@@ -82,19 +84,29 @@
             font-size: 1.1em;
             margin-top: 3px;
         }
-        
-        /* Search/Tools and Cards CSS (Same as before) */
-        .search-container { /* DuckDuckGo Search Box */
+
+        /* Search & Cards */
+        .search-container {
             width: 90%; max-width: 600px; margin-bottom: 40px; border: 1px solid var(--primary-color); border-radius: 5px; overflow: hidden; display: flex;
         }
-        .search-container input[type="text"] { flex-grow: 1; padding: 10px 15px; background-color: #333; border: none; color: var(--primary-color); font-family: 'Roboto Mono', monospace; font-size: 1em; outline: none; }
-        .search-container button { background-color: var(--primary-color); color: var(--background-color); border: none; padding: 10px 15px; cursor: pointer; font-family: 'Roboto Mono', monospace; font-weight: 600; transition: background-color 0.3s; }
-        .card-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 1000px; padding: 20px; margin-bottom: 40px; }
-        .card { background: var(--card-bg); border-radius: 5px; border: 1px solid var(--border-color); box-shadow: 0 0 10px rgba(0, 255, 65, 0.1); padding: 30px; width: 300px; text-align: left; transition: transform 0.3s; }
-        .card h2 { color: var(--secondary-color); font-size: 1.4em; }
+        .search-container input[type="text"] {
+            flex-grow: 1; padding: 10px 15px; background-color: #333; border: none; color: var(--primary-color); font-family: 'Roboto Mono', monospace; font-size: 1em; outline: none;
+        }
+        .search-container button {
+            background-color: var(--primary-color); color: var(--background-color); border: none; padding: 10px 15px; cursor: pointer; font-family: 'Roboto Mono', monospace; font-weight: 600; transition: background-color 0.3s;
+        }
+        .card-container {
+            display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 1000px; padding: 20px; margin-bottom: 40px;
+        }
+        .card {
+            background: var(--card-bg); border-radius: 5px; border: 1px solid var(--border-color); box-shadow: 0 0 10px rgba(0, 255, 65, 0.1); padding: 30px; width: 300px; text-align: left; transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card h2 { color: var(--secondary-color); font-size: 1.4em; margin-top: 0; }
         .ip-info span { color: #fff; font-weight: 700; }
-        .cta-link { color: var(--primary-color); cursor: pointer; }
-        
+        .cta-link { color: var(--primary-color); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .cta-link:hover { text-shadow: 0 0 8px var(--primary-color); }
+
         /* Interactive Clock Widget */
         .interactive-clock-widget {
             width: 90%;
@@ -117,6 +129,7 @@
             border: 1px solid var(--primary-color);
             width: 100%;
             max-width: 300px;
+            border-radius: 4px;
         }
         .interactive-clock-widget span {
             color: var(--secondary-color);
@@ -124,16 +137,67 @@
             font-weight: 700;
         }
 
-        /* Modal Styles (Tool List) - Same as previous */
-        .modal { display: none; /* ... (CSS အဟောင်း) */ }
-        .modal-content { /* ... (CSS အဟောင်း) */ }
-        .close-btn { /* ... (CSS အဟောင်း) */ }
-        .tool-list h3 { /* ... (CSS အဟောင်း) */ }
-        .tool-list a { /* ... (CSS အဟောင်း) */ }
+        /* Modal Styles - Enhanced */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            overflow: auto;
+        }
+        .modal-content {
+            background-color: var(--modal-bg);
+            margin: 5% auto;
+            padding: 25px;
+            border: 2px solid var(--modal-border);
+            width: 90%;
+            max-width: 700px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+            animation: modalFadeIn 0.4s ease-out;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .close-btn:hover { color: var(--primary-color); }
+
+        .tool-list h3 {
+            color: var(--secondary-color);
+            border-bottom: 1px dashed var(--primary-color);
+            padding-bottom: 8px;
+            margin: 20px 0 10px 0;
+            font-size: 1.1em;
+        }
+        .tool-list a {
+            display: block;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 0;
+            font-size: 0.95em;
+            transition: color 0.3s, padding-left 0.3s;
+        }
+        .tool-list a:hover {
+            color: var(--primary-color);
+            padding-left: 8px;
+            text-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+        }
 
         @media (max-width: 768px) {
             .clock-item { width: 48%; margin-bottom: 10px; }
             .clock-item.local { width: 100%; }
+            .card { width: 100%; }
         }
     </style>
 </head>
@@ -143,6 +207,7 @@
         <p>ACCESS GRANTED: Global Utility & Time Sync</p>
     </div>
 
+    <!-- World Clock Dashboard -->
     <div class="world-clock-dashboard">
         <div class="clock-item local">
             LOCAL TIME: <span id="local-time">--:--:--</span>
@@ -161,11 +226,13 @@
         </div>
     </div>
 
+    <!-- Search Bar -->
     <form id="search-form" action="https://duckduckgo.com/" method="GET" target="_blank" class="search-container" onsubmit="clearSearchBox()">
         <input type="text" id="search-input" name="q" placeholder="> Enter web query and press ENTER..." required>
         <button type="submit">SEARCH</button>
     </form>
 
+    <!-- Cards -->
     <div class="card-container">
         <div class="card">
             <h2>> CODE/PROJECTS</h2>
@@ -189,23 +256,27 @@
         </div>
     </div>
 
+    <!-- Interactive Clock -->
     <div class="interactive-clock-widget">
         <h2 style="color:var(--secondary-color); margin-top:0; border-bottom: 1px dashed #333; padding-bottom: 5px;">[ WORLD TIME CHECK ]</h2>
         <select id="timezone-select">
             <option value="Asia/Yangon">Asia/Yangon (Local)</option>
             <option value="Asia/Kolkata">Asia/Kolkata (India)</option>
             <option value="Europe/Berlin">Europe/Berlin (Germany)</option>
-            <option value="America/Los_Angeles">America/Los Angeles (PST)</option>
+            <option value="America/Los_Angeles">America/Los_Angeles (PST)</option>
             <option value="Asia/Shanghai">Asia/Shanghai (China)</option>
             <option value="Australia/Sydney">Australia/Sydney</option>
-            </select>
+        </select>
         <p>Selected Time: <span id="selected-time">--:--:--</span></p>
     </div>
 
+    <!-- Tools Modal -->
     <div id="tools-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
-            <h2 style="color:var(--primary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 10px;">[ UTILITY MENU ]</h2>
+            <h2 style="color:var(--primary-color); text-align:center; border-bottom: 2px solid var(--secondary-color); padding-bottom: 10px;">
+                [ SYSTEM UTILITY MENU ]
+            </h2>
             
             <div class="tool-list">
                 <h3>[1] NETWORK & INFRA</h3>
@@ -220,7 +291,7 @@
 
                 <h3>[2] CYBER DETECTIVE & SECURITY</h3>
                 <a href="https://exifdata.com/" target="_blank">Exif Data Viewer (Metadata)</a>
-                <a href="https://archive.org/web/web.php" target="_blank">Website History (Wayback)</a>
+                <a href="https://archive.org/web/" target="_blank">Website History (Wayback)</a>
                 <a href="https://www.virustotal.com/" target="_blank">Virus/File Analyzer</a>
                 <a href="https://url-decoder.com/" target="_blank">URL Decoder</a>
                 <a href="https://hash.online-convert.com/sha256-generator" target="_blank">SHA/MD5 Hash Calculator</a>
@@ -228,16 +299,17 @@
                 <a href="https://passwordsgenerator.net/" target="_blank">Secure Password Generator</a>
                 <a href="https://hunter.io/email-verifier" target="_blank">Email Validator (Hunter)</a>
             </div>
-            <p style="margin-top: 20px; font-size: 0.9em; color: #888;">*All links open in a new tab.</p>
+            <p style="margin-top: 25px; font-size: 0.85em; color: #666; text-align:center;">
+                * All tools open in a new tab. Use responsibly.
+            </p>
         </div>
     </div>
 
     <script>
         // --- Core Functions ---
 
-        // 1. Dynamic World Clock Update
         const fixedTimezones = {
-            'local-time': undefined, // undefined uses browser's local time
+            'local-time': undefined,
             'utc-time': 'UTC',
             'london-time': 'Europe/London',
             'newyork-time': 'America/New_York',
@@ -249,7 +321,6 @@
             const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
             const dateOptions = { month: '2-digit', day: '2-digit', year: 'numeric' };
 
-            // Update fixed clocks
             for (const [id, timezone] of Object.entries(fixedTimezones)) {
                 const element = document.getElementById(id);
                 if (element) {
@@ -258,15 +329,13 @@
                 }
             }
 
-            // Update Local Date
             const localClock = document.getElementById('local-time');
-            if(localClock && !localClock.dataset.dateSet) {
-                 localClock.textContent = now.toLocaleDateString('en-US', dateOptions) + ' | ' + localClock.textContent;
-                 localClock.dataset.dateSet = true;
+            if (localClock && !localClock.dataset.dateSet) {
+                localClock.textContent = now.toLocaleDateString('en-US', dateOptions) + ' | ' + localClock.textContent;
+                localClock.dataset.dateSet = true;
             }
         }
-        
-        // 2. Interactive Time Picker
+
         const timezoneSelect = document.getElementById('timezone-select');
         const selectedTimeDisplay = document.getElementById('selected-time');
 
@@ -283,42 +352,33 @@
         }
 
         timezoneSelect.addEventListener('change', updateSelectedTime);
-        
-        // 3. Search Box Clear
+
         function clearSearchBox() {
             const searchInput = document.getElementById('search-input');
-            setTimeout(() => {
-                searchInput.value = '';
-            }, 100); 
-            return true;
+            setTimeout(() => searchInput.value = '', 100);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Initial Time Setup
             updateClocks();
-            updateSelectedTime(); // Initial call for interactive clock
+            updateSelectedTime();
             setInterval(updateClocks, 1000);
             setInterval(updateSelectedTime, 1000);
-            
-            // IP Fetcher
+
+            // IP Fetch
             const ipDisplay = document.getElementById('current-ip');
             fetch('https://api.ipify.org?format=json')
-                .then(response => response.json())
-                .then(data => {
-                    ipDisplay.textContent = data.ip;
-                })
-                .catch(error => {
-                    ipDisplay.textContent = 'ERROR/TIMEOUT';
-                    console.error('Error fetching IP:', error);
-                });
+                .then(r => r.json())
+                .then(d => ipDisplay.textContent = d.ip)
+                .catch(() => ipDisplay.textContent = 'ERROR');
 
-            // Modal Handler
+            // Modal Controls
             const modal = document.getElementById("tools-modal");
             const btn = document.getElementById("launch-tools-btn");
             const span = document.getElementsByClassName("close-btn")[0];
-            btn.onclick = function() { modal.style.display = "block"; }
-            span.onclick = function() { modal.style.display = "none"; }
-            window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
+
+            btn.onclick = () => modal.style.display = "block";
+            span.onclick = () => modal.style.display = "none";
+            window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
         });
     </script>
 </body>
