@@ -10,7 +10,7 @@
         :root {
             --p: #00ff41; --s: #00d4ff; --bg: #1a1a1a; --c: #222; --t: #e0e0e0; --b: #004d14;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-sizing; margin: 0; padding: 0; }
         body { font-family: 'Roboto Mono', monospace; background: var(--bg); color: var(--t); min-height: 100vh; padding: 20px 0; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 15px; }
 
@@ -21,11 +21,43 @@
         .header a:hover { text-shadow: 0 0 8px var(--s); }
 
         .controls { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 20px; }
-        .ctrl-btn { background: var(--c); border: 1px solid var(--b); color: var(--t); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.9em; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        
+        /* === 🛠️ Network Status Button CSS ပြင်ဆင်ခြင်း === */
+        .ctrl-btn { 
+            background: var(--c); border: 1px solid var(--b); color: var(--t); 
+            padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.9em; 
+            
+            /* ✅ ပြောင်းလဲထားသော CSS: */
+            position: relative; 
+            display: inline-flex; 
+            align-items: center; 
+            padding-left: 30px; 
+            min-width: 120px; 
+            justify-content: center;
+            transition: 0.3s; 
+        }
         .ctrl-btn:hover { border-color: var(--p); color: var(--p); transform: translateY(-2px); }
-        .status-dot { width: 8px; height: 8px; background: #f00; border-radius: 50%; animation: pulse 2s infinite; }
+        
+        .status-dot { 
+            width: 8px; height: 8px; border-radius: 50%; animation: pulse 2s infinite; 
+            /* ✅ ထပ်ပေါင်းထားသော CSS: */
+            position: absolute;
+            left: 10px; 
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
         .online .status-dot { background: var(--p); }
         @keyframes pulse { 0%,100% {opacity:1} 50%{opacity:0.5} }
+
+        /* ✅ Network Status စာသားများအတွက် CSS အသစ် */
+        .network-text {
+            font-weight: 600;
+        }
+        .network-text.hidden {
+            display: none;
+        }
+        /* ============================================= */
 
         .search-container { max-width: 600px; margin: 0 auto 25px; display: flex; border: 1px solid var(--p); border-radius: 6px; overflow: hidden; }
         .search-container input { flex: 1; padding: 12px; background: #333; border: none; color: var(--p); font-family: inherit; outline: none; }
@@ -77,7 +109,12 @@
         </div>
 
         <div class="controls">
-            <div id="network-status" class="ctrl-btn"><span class="status-dot"></span> <span>Checking...</span></div>
+            <div id="network-status" class="ctrl-btn">
+                <span class="status-dot" id="network-dot"></span> 
+                <span id="checking-text" class="network-text">Checking...</span>
+                <span id="online-text" class="network-text hidden">Online</span>
+                <span id="offline-text" class="network-text hidden" style="color:#f00;">Offline</span>
+            </div>
             <div id="clear-history" class="ctrl-btn">Clear History</div>
         </div>
 
@@ -87,7 +124,6 @@
         </form>
         <div class="search-history" id="history-list"></div>
 
-        <!-- Clock Dashboard -->
         <div class="clock-dashboard">
             <div class="clock-item local">LOCAL (MM): <span id="local-time">--:--:--</span></div>
             <div class="clock-item">UTC: <span id="utc-time">--:--:--</span></div>
@@ -96,7 +132,6 @@
             <div class="clock-item">TOK (JP): <span id="tokyo-time">--:--:--</span></div>
         </div>
 
-        <!-- Cards -->
         <div class="card-grid">
             <div class="card">
                 <h2>CODE HUB</h2>
@@ -139,7 +174,6 @@
             </div>
         </div>
 
-        <!-- Interactive Clock -->
         <div class="interactive-clock">
             <h2 style="color:var(--s); margin-bottom:10px;">[ WORLD TIME ]</h2>
             <select id="timezone-select">
@@ -403,7 +437,6 @@
         </div>
     </div>
 
-    <!-- Modals -->
     <div id="ai-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('ai-modal')">×</span>
@@ -514,6 +547,12 @@
         const bookmarkList = document.getElementById('bookmark-list');
         const sound = document.getElementById('click-sound');
 
+        // === 🛠️ JavaScript Constants အသစ်များ ===
+        const checkingText = document.getElementById('checking-text');
+        const onlineText = document.getElementById('online-text');
+        const offlineText = document.getElementById('offline-text');
+        // ===================================
+
         function playClick() { sound.currentTime = 0; sound.play().catch(()=>{}); }
 
         // Clock
@@ -552,11 +591,24 @@
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         window.onclick = e => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; };
 
+        // === 🛠️ JavaScript function ပြင်ဆင်ခြင်း ===
         function updateNetwork() {
             const isOnline = navigator.onLine;
             networkStatus.classList.toggle('online', isOnline);
-            networkStatus.querySelector('span').textContent = isOnline ? 'Online' : 'Offline';
+            
+            // Checking... စာသားကို ချက်ချင်းဖျောက်ခြင်း
+            checkingText.classList.add('hidden'); 
+
+            if (isOnline) {
+                onlineText.classList.remove('hidden');
+                offlineText.classList.add('hidden');
+            } else {
+                onlineText.classList.add('hidden');
+                offlineText.classList.remove('hidden');
+            }
         }
+        // ======================================
+
         window.addEventListener('online', updateNetwork);
         window.addEventListener('offline', updateNetwork);
 
