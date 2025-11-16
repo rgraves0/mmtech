@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MMTech - Pro Utility Console</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%2300ff41' stroke='%2300d4ff' stroke-width='5'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='%231a1a1a' font-family='Roboto Mono, monospace' font-size='20' font-weight='700'%3EMM%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+    
+    <link rel="icon" href="https://media.wired.com/photos/5926e27e7034dc5f91becf0a/3:2/w_1920,c_limit/GettyImages-496384556.jpg" type="image/jpeg">
+    
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --p: #00ff41; --s: #00d4ff; --bg: #1a1a1a; --c: #222; --t: #e0e0e0; --b: #004d14;
         }
-        * { box-sizing: border-sizing; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Roboto Mono', monospace; background: var(--bg); color: var(--t); min-height: 100vh; padding: 20px 0; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 15px; }
 
@@ -22,12 +24,11 @@
 
         .controls { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 20px; }
         
-        /* === 🛠️ Network Status Button CSS ပြင်ဆင်ခြင်း === */
+        /* === Network Status Button CSS ပြင်ဆင်ခြင်း === */
         .ctrl-btn { 
             background: var(--c); border: 1px solid var(--b); color: var(--t); 
             padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.9em; 
             
-            /* ✅ ပြောင်းလဲထားသော CSS: */
             position: relative; 
             display: inline-flex; 
             align-items: center; 
@@ -40,7 +41,6 @@
         
         .status-dot { 
             width: 8px; height: 8px; border-radius: 50%; animation: pulse 2s infinite; 
-            /* ✅ ထပ်ပေါင်းထားသော CSS: */
             position: absolute;
             left: 10px; 
             top: 50%;
@@ -50,7 +50,6 @@
         .online .status-dot { background: var(--p); }
         @keyframes pulse { 0%,100% {opacity:1} 50%{opacity:0.5} }
 
-        /* ✅ Network Status စာသားများအတွက် CSS အသစ် */
         .network-text {
             font-weight: 600;
         }
@@ -547,7 +546,7 @@
         const bookmarkList = document.getElementById('bookmark-list');
         const sound = document.getElementById('click-sound');
 
-        // === 🛠️ JavaScript Constants အသစ်များ ===
+        // === JavaScript Constants အသစ်များ ===
         const checkingText = document.getElementById('checking-text');
         const onlineText = document.getElementById('online-text');
         const offlineText = document.getElementById('offline-text');
@@ -591,7 +590,7 @@
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         window.onclick = e => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; };
 
-        // === 🛠️ JavaScript function ပြင်ဆင်ခြင်း ===
+        // === JavaScript function ပြင်ဆင်ခြင်း ===
         function updateNetwork() {
             const isOnline = navigator.onLine;
             networkStatus.classList.toggle('online', isOnline);
